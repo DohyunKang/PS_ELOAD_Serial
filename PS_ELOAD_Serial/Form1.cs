@@ -201,6 +201,36 @@ namespace PS_ELOAD_Serial
             }
         }
 
+        private void ApplyButton3_Click(object sender, EventArgs e)
+        {
+            // Switch1이 ON 상태인지 확인
+            if (switch1.Value)
+            {
+                try
+                {
+                    // EV와 EC의 값 가져오기
+                    double voltage = (double)EV.Value; // EV 컨트롤의 값을 double 타입으로 가져옴
+                    double current = (double)EC.Value; // EC 컨트롤의 값을 double 타입으로 가져옴
+
+                    // 전압 설정 명령어를 ELoad에 전송
+                    SendCommandToELoad("VOLT " + voltage.ToString("F2")); // ELoad에 전압 설정 명령어 전송
+                    // 전류 설정 명령어를 ELoad에 전송
+                    SendCommandToELoad("CURR " + current.ToString("F2")); // ELoad에 전류 설정 명령어 전송
+
+                    MessageBox.Show("Voltage 및 Current가 ELoad에 적용되었습니다.", "설정 완료");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("설정 적용 실패: " + ex.Message, "오류");
+                }
+            }
+            else
+            {
+                // Switch1이 ON 상태가 아니면 경고 메시지 표시
+                MessageBox.Show("ELoad가 연결되지 않았거나 Switch1이 OFF 상태입니다.", "설정 오류");
+            }
+        }
+
         /*
         private async void ApplyButton_Click(object sender, EventArgs e)
         {
@@ -281,6 +311,52 @@ namespace PS_ELOAD_Serial
 
             // X축 레이블 설정
             waveformGraph2.XAxes[0].Caption = "Time (0.1s)";
+        }
+
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            // Switch1(Switch가 켜져 있는지 확인)
+            if (switch1.Value) // switch1.Value가 True면 스위치가 켜져 있는 상태
+            {
+                try
+                {
+                    // 현재 Load 상태 확인 및 반전
+                    if (E_LED.Value) // 현재 Load가 켜져 있는 상태라면
+                    {
+                        // Load 끄기 명령어 전송 (ELoad의 연결이 되어 있어야 함)
+                        if (serialPort != null && serialPort.IsOpen)
+                        {
+                            serialPort.WriteLine("OUTP OFF");
+                        }
+
+                        // LED 및 메시지 표시
+                        E_LED.Value = false;
+                        MessageBox.Show("ELoad Load가 꺼졌습니다.", "Load 상태");
+                    }
+                    else // 현재 Load가 꺼져 있는 상태라면
+                    {
+                        // Load 켜기 명령어 전송 (ELoad의 연결이 되어 있어야 함)
+                        if (serialPort != null && serialPort.IsOpen)
+                        {
+                            serialPort.WriteLine("INP ON");
+                        }
+
+                        // LED 및 메시지 표시
+                        E_LED.Value = true;
+                        MessageBox.Show("ELoad Load가 켜졌습니다.", "Load 상태");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 예외 처리 (시리얼 통신 에러 등)
+                    MessageBox.Show("ELoad Load 상태 전환 실패: " + ex.Message, "오류");
+                }
+            }
+            else
+            {
+                // Switch1이 OFF 상태일 때 경고 메시지 표시
+                MessageBox.Show("ELoad가 연결되지 않았습니다. Switch1을 켜세요.", "Load 제어 오류");
+            }
         }
 
         // Output 버튼 클릭 이벤트 핸들러
@@ -500,7 +576,6 @@ namespace PS_ELOAD_Serial
             }
         }
 
-        // 나머지 PS 관련 메서드는 이전과 동일하게 유지
         private void ELoadRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             if (serialPort != null && isConnected)
@@ -510,33 +585,101 @@ namespace PS_ELOAD_Serial
                 {
                     string command = "";
 
+                    // CR 모드 선택 시 CRMode 폼을 열기
                     if (selectedButton == CCButton)
                     {
-                        command = "MODE CC"; // CC 모드 설정 명령어
+                        command = "FUNC CC"; // CC 모드 설정 명령어
+                        try
+                        {
+                            serialPort.WriteLine(command); // 명령어를 ELoad로 전송
+                            MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("명령 전송 실패: " + ex.Message, "모드 설정 오류");
+                        }
                     }
                     else if (selectedButton == CVButton)
                     {
-                        command = "MODE CV"; // CV 모드 설정 명령어
+                        command = "FUNC CV"; // CV 모드 설정 명령어
+                        try
+                        {
+                            serialPort.WriteLine(command); // 명령어를 ELoad로 전송
+                            MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("명령 전송 실패: " + ex.Message, "모드 설정 오류");
+                        }
                     }
                     else if (selectedButton == CRButton)
                     {
-                        command = "MODE CR"; // CR 모드 설정 명령어
-                    }
+                        command = "FUNC CR"; // CR 모드 설정 명령어
 
+                        try
+                        {
+                            serialPort.WriteLine(command); // 명령어를 ELoad로 전송
+                            MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("명령 전송 실패: " + ex.Message, "모드 설정 오류");
+                        }
+
+                        // CR 모드가 선택되었을 때 CRMode 폼을 열기
+                        CRMode crModeForm = new CRMode();
+
+                        // CRMode 창을 모달 폼으로 열기 (열리는 동안 다른 창과 상호작용 불가능)
+                        DialogResult result = crModeForm.ShowDialog();
+
+                        // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
+                        if (result == DialogResult.OK)
+                        {
+                            // CRMode에서 설정한 값들을 가져와서 명령어로 변환
+                            string impedanceValue = crModeForm.ImpedanceValue;
+                            string uvpValue = crModeForm.UVPValue;
+                            string ocplValue = crModeForm.OCPLValue;
+                            string opplValue = crModeForm.OPPLValue;
+
+                            // 시리얼 포트를 통해 설정 값 전송
+                            SendCommandToELoad("FUNC RES " + impedanceValue); // 임피던스 값 전송
+                            SendCommandToELoad("VOLT:PROT:LOW " + uvpValue); // UVP 값 전송
+                            SendCommandToELoad("CURR:PROT " + ocplValue); // OCPL 값 전송
+                            SendCommandToELoad("POW:PROT " + opplValue); // OPPL 값 전송
+
+                            MessageBox.Show("CR 모드 설정이 완료되었습니다.", "설정 완료");
+                        }
+                        return; // CR 모드일 때는 이후 코드를 실행하지 않음
+                    }
+                    /*
                     try
                     {
-                        serialPort.WriteLine(command);
+                        serialPort.WriteLine(command); // 명령어를 ELoad로 전송
                         MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("명령 전송 실패: " + ex.Message, "모드 설정 오류");
-                    }
+                    }*/
                 }
             }
             else
             {
-                MessageBox.Show("Power Supply가 연결되지 않았습니다.", "모드 설정 오류");
+                MessageBox.Show("ELoad가 연결되지 않았습니다.", "모드 설정 오류");
+            }
+        }
+
+
+        // ELoad에 명령어를 보내는 메서드
+        private void SendCommandToELoad(string command)
+        {
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                serialPort.WriteLine(command); // 시리얼 포트를 통해 명령어 전송
+            }
+            else
+            {
+                MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
             }
         }
 

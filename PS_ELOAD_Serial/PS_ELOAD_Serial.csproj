@@ -78,6 +78,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CCMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCMode.Designer.cs">
+      <DependentUpon>CCMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CRMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CRMode.Designer.cs">
+      <DependentUpon>CRMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CVMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CVMode.Designer.cs">
+      <DependentUpon>CVMode.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -111,6 +129,12 @@
     <Compile Include="Sequence.Designer.cs">
       <DependentUpon>Sequence.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CCMode.resx">
+      <DependentUpon>CCMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CRMode.resx">
+      <DependentUpon>CRMode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
