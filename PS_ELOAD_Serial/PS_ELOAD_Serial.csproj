@@ -135,6 +135,9 @@
     <EmbeddedResource Include="CRMode.resx">
       <DependentUpon>CRMode.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CVMode.resx">
+      <DependentUpon>CVMode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

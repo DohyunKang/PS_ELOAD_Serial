@@ -585,14 +585,37 @@ namespace PS_ELOAD_Serial
                 {
                     string command = "";
 
-                    // CR 모드 선택 시 CRMode 폼을 열기
+                    // CC 모드 선택 시 CCMode 폼을 열기
                     if (selectedButton == CCButton)
                     {
                         command = "FUNC CC"; // CC 모드 설정 명령어
+
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
                             MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
+
+                            // CC 모드가 선택되었을 때 CCMode 폼을 열기
+                            CCMode ccModeForm = new CCMode();
+                            DialogResult ccResult = ccModeForm.ShowDialog();
+
+                            // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
+                            if (ccResult == DialogResult.OK)
+                            {
+                                // CCMode에서 설정한 값들을 가져와서 명령어로 변환
+                                string currentValue = ccModeForm.CurrentValue;
+                                string opplValue = ccModeForm.OPPLValue;
+                                string uvpValue = ccModeForm.UVPValue;
+                                string inductanceValue = ccModeForm.InductanceValue; // 유도성 값
+
+                                // 시리얼 포트를 통해 설정 값 전송
+                                SendCommandToELoad("CURR " + currentValue);        // 전류 값 전송
+                                SendCommandToELoad("IND " + inductanceValue);
+                                SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
+                                SendCommandToELoad("POW:PROT " + opplValue);       // OPPL 값 전송
+
+                                MessageBox.Show("CC 모드 설정이 완료되었습니다.", "설정 완료");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -602,10 +625,33 @@ namespace PS_ELOAD_Serial
                     else if (selectedButton == CVButton)
                     {
                         command = "FUNC CV"; // CV 모드 설정 명령어
+
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
                             MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
+
+                            // CV 모드가 선택되었을 때 CVMode 폼을 열기
+                            CVMode cvModeForm = new CVMode();
+                            DialogResult cvResult = cvModeForm.ShowDialog();
+
+                            // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
+                            if (cvResult == DialogResult.OK)
+                            {
+                                // CVMode에서 설정한 값들을 가져와서 명령어로 변환
+                                string voltageValue = cvModeForm.VoltageValue;
+                                string uvpValue = cvModeForm.UVPValue;
+                                string ocplValue = cvModeForm.OCPLValue;
+                                string opplValue = cvModeForm.OPPLValue;
+
+                                // 시리얼 포트를 통해 설정 값 전송
+                                SendCommandToELoad("VOLT " + voltageValue);        // 전압 값 전송
+                                SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
+                                SendCommandToELoad("CURR:PROT " + ocplValue);     // OCPL 값 전송
+                                SendCommandToELoad("POW:PROT " + opplValue);      // OPPL 값 전송
+
+                                MessageBox.Show("CV 모드 설정이 완료되었습니다.", "설정 완료");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -620,47 +666,34 @@ namespace PS_ELOAD_Serial
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
                             MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
+
+                            // CR 모드가 선택되었을 때 CRMode 폼을 열기
+                            CRMode crModeForm = new CRMode();
+                            DialogResult crResult = crModeForm.ShowDialog();
+
+                            // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
+                            if (crResult == DialogResult.OK)
+                            {
+                                // CRMode에서 설정한 값들을 가져와서 명령어로 변환
+                                string impedanceValue = crModeForm.ImpedanceValue;
+                                string uvpValue = crModeForm.UVPValue;
+                                string ocplValue = crModeForm.OCPLValue;
+                                string opplValue = crModeForm.OPPLValue;
+
+                                // 시리얼 포트를 통해 설정 값 전송
+                                SendCommandToELoad("RES " + impedanceValue);      // 임피던스 값 전송
+                                SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
+                                SendCommandToELoad("CURR:PROT " + ocplValue);     // OCPL 값 전송
+                                SendCommandToELoad("POW:PROT " + opplValue);      // OPPL 값 전송
+
+                                MessageBox.Show("CR 모드 설정이 완료되었습니다.", "설정 완료");
+                            }
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show("명령 전송 실패: " + ex.Message, "모드 설정 오류");
                         }
-
-                        // CR 모드가 선택되었을 때 CRMode 폼을 열기
-                        CRMode crModeForm = new CRMode();
-
-                        // CRMode 창을 모달 폼으로 열기 (열리는 동안 다른 창과 상호작용 불가능)
-                        DialogResult result = crModeForm.ShowDialog();
-
-                        // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
-                        if (result == DialogResult.OK)
-                        {
-                            // CRMode에서 설정한 값들을 가져와서 명령어로 변환
-                            string impedanceValue = crModeForm.ImpedanceValue;
-                            string uvpValue = crModeForm.UVPValue;
-                            string ocplValue = crModeForm.OCPLValue;
-                            string opplValue = crModeForm.OPPLValue;
-
-                            // 시리얼 포트를 통해 설정 값 전송
-                            SendCommandToELoad("FUNC RES " + impedanceValue); // 임피던스 값 전송
-                            SendCommandToELoad("VOLT:PROT:LOW " + uvpValue); // UVP 값 전송
-                            SendCommandToELoad("CURR:PROT " + ocplValue); // OCPL 값 전송
-                            SendCommandToELoad("POW:PROT " + opplValue); // OPPL 값 전송
-
-                            MessageBox.Show("CR 모드 설정이 완료되었습니다.", "설정 완료");
-                        }
-                        return; // CR 모드일 때는 이후 코드를 실행하지 않음
                     }
-                    /*
-                    try
-                    {
-                        serialPort.WriteLine(command); // 명령어를 ELoad로 전송
-                        MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("명령 전송 실패: " + ex.Message, "모드 설정 오류");
-                    }*/
                 }
             }
             else
@@ -668,7 +701,6 @@ namespace PS_ELOAD_Serial
                 MessageBox.Show("ELoad가 연결되지 않았습니다.", "모드 설정 오류");
             }
         }
-
 
         // ELoad에 명령어를 보내는 메서드
         private void SendCommandToELoad(string command)
