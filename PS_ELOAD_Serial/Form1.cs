@@ -28,6 +28,9 @@ namespace PS_ELOAD_Serial
         private WaveformPlot voltagePlot; // 전압 값 플롯
         private WaveformPlot currentPlot; // 전류 값 플롯
 
+        // Sequence 창을 열기 위한 Delegate 정의
+        public Action OpenSequenceDelegate;
+
         public Form1()
         {
             InitializeComponent();
@@ -52,6 +55,11 @@ namespace PS_ELOAD_Serial
 
             // 그래프 초기화 설정
             InitializeGraph();
+
+            // Delegate를 해당 메서드에 연결
+            OpenSequenceDelegate = OpenSequenceWindow;
+
+            ModeButton.Click += ModeButton_Click; // ModeButton의 Click 이벤트 핸들러 설정
         }
 
 
@@ -70,6 +78,36 @@ namespace PS_ELOAD_Serial
             comboBox1.Items.Clear(); // 기존 아이템 초기화
             string[] ports = SerialPort.GetPortNames(); // 사용 가능한 모든 COM 포트 가져오기
             comboBox1.Items.AddRange(ports); // COM 포트 목록 추가
+        }
+
+        /*private void ModeButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Sequence sequenceWindow = new Sequence();
+                Console.WriteLine("Sequence 창을 생성했습니다.");
+                sequenceWindow.Show(); // Show()를 사용하여 Sequence 창 열기
+                Console.WriteLine("Sequence 창을 열었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sequence 창을 열 때 오류가 발생했습니다: " + ex.Message);
+            }
+        }*/
+
+        // ModeButton 클릭 시 실행되는 이벤트 핸들러
+        private void ModeButton_Click(object sender, EventArgs e)
+        {
+            // Delegate가 null이 아니면 호출하여 창을 엶
+            OpenSequenceDelegate.Invoke();
+        }
+
+        // Sequence 창을 여는 메서드 (Delegate에 연결)
+        private void OpenSequenceWindow()
+        {
+            Sequence sequenceWindow = new Sequence();
+            sequenceWindow.Show(); // 모달리스 창 열기
+            MessageBox.Show("Sequence 창이 열렸습니다.");
         }
 
         // ELoad 스위치 상태가 변경될 때의 이벤트 처리 메서드
@@ -237,10 +275,12 @@ namespace PS_ELOAD_Serial
 
             // Y축 레이블 설정
             waveformGraph2.YAxes[0].Caption = "Voltage (V)";
+            waveformGraph2.YAxes[0].CaptionForeColor = voltagePlot.LineColor; // 전압 플롯 색상과 동일하게 설정
             waveformGraph2.YAxes[1].Caption = "Current (A)";
+            waveformGraph2.YAxes[1].CaptionForeColor = currentPlot.LineColor; // 전류 플롯 색상과 동일하게 설정
 
             // X축 레이블 설정
-            waveformGraph2.XAxes[0].Caption = "Time (s)";
+            waveformGraph2.XAxes[0].Caption = "Time (0.1s)";
         }
 
         // Output 버튼 클릭 이벤트 핸들러
