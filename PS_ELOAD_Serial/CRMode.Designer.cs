@@ -43,6 +43,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.textBoxOCPL = new System.Windows.Forms.TextBox();
             this.labelResistance = new System.Windows.Forms.Label();
+            this.textBoxVoltage = new System.Windows.Forms.TextBox();
+            this.labelVoltage = new System.Windows.Forms.Label();
+            this.plusCVButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label4
@@ -74,7 +77,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.Location = new System.Drawing.Point(129, 77);
+            this.label6.Location = new System.Drawing.Point(128, 63);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(17, 15);
             this.label6.TabIndex = 28;
@@ -107,7 +110,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(229, 141);
+            this.buttonCancel.Location = new System.Drawing.Point(249, 156);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 23);
             this.buttonCancel.TabIndex = 23;
@@ -116,7 +119,7 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(24, 141);
+            this.buttonOk.Location = new System.Drawing.Point(131, 156);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(100, 23);
             this.buttonOk.TabIndex = 22;
@@ -167,17 +170,45 @@
             // labelResistance
             // 
             this.labelResistance.AutoSize = true;
-            this.labelResistance.Location = new System.Drawing.Point(57, 78);
+            this.labelResistance.Location = new System.Drawing.Point(56, 64);
             this.labelResistance.Name = "labelResistance";
             this.labelResistance.Size = new System.Drawing.Size(64, 12);
             this.labelResistance.TabIndex = 35;
             this.labelResistance.Text = "resistance";
             // 
+            // textBoxVoltage
+            // 
+            this.textBoxVoltage.Location = new System.Drawing.Point(24, 96);
+            this.textBoxVoltage.Name = "textBoxVoltage";
+            this.textBoxVoltage.Size = new System.Drawing.Size(92, 21);
+            this.textBoxVoltage.TabIndex = 36;
+            // 
+            // labelVoltage
+            // 
+            this.labelVoltage.AutoSize = true;
+            this.labelVoltage.Location = new System.Drawing.Point(129, 99);
+            this.labelVoltage.Name = "labelVoltage";
+            this.labelVoltage.Size = new System.Drawing.Size(13, 12);
+            this.labelVoltage.TabIndex = 37;
+            this.labelVoltage.Text = "V";
+            // 
+            // plusCVButton
+            // 
+            this.plusCVButton.Location = new System.Drawing.Point(34, 156);
+            this.plusCVButton.Name = "plusCVButton";
+            this.plusCVButton.Size = new System.Drawing.Size(50, 23);
+            this.plusCVButton.TabIndex = 41;
+            this.plusCVButton.Text = "+CV";
+            this.plusCVButton.UseVisualStyleBackColor = true;
+            // 
             // CRMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 183);
+            this.ClientSize = new System.Drawing.Size(361, 203);
+            this.Controls.Add(this.plusCVButton);
+            this.Controls.Add(this.labelVoltage);
+            this.Controls.Add(this.textBoxVoltage);
             this.Controls.Add(this.labelResistance);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
@@ -217,5 +248,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBoxOCPL;
         private System.Windows.Forms.Label labelResistance;
+        private System.Windows.Forms.TextBox textBoxVoltage;
+        private System.Windows.Forms.Label labelVoltage;
+        private System.Windows.Forms.Button plusCVButton;
     }
 }

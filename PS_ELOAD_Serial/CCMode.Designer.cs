@@ -40,11 +40,14 @@
             this.textBoxUVP = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxCurrent_A_us = new System.Windows.Forms.TextBox();
+            this.labelVoltage = new System.Windows.Forms.Label();
+            this.textBoxVoltage = new System.Windows.Forms.TextBox();
+            this.plusCVButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(237, 136);
+            this.buttonCancel.Location = new System.Drawing.Point(252, 159);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 23);
             this.buttonCancel.TabIndex = 11;
@@ -53,7 +56,7 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(32, 136);
+            this.buttonOk.Location = new System.Drawing.Point(129, 159);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(100, 23);
             this.buttonOk.TabIndex = 10;
@@ -129,7 +132,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(137, 73);
+            this.label6.Location = new System.Drawing.Point(137, 113);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(33, 12);
             this.label6.TabIndex = 16;
@@ -137,16 +140,44 @@
             // 
             // textBoxCurrent_A_us
             // 
-            this.textBoxCurrent_A_us.Location = new System.Drawing.Point(32, 68);
+            this.textBoxCurrent_A_us.Location = new System.Drawing.Point(32, 108);
             this.textBoxCurrent_A_us.Name = "textBoxCurrent_A_us";
             this.textBoxCurrent_A_us.Size = new System.Drawing.Size(92, 21);
             this.textBoxCurrent_A_us.TabIndex = 15;
+            // 
+            // labelVoltage
+            // 
+            this.labelVoltage.AutoSize = true;
+            this.labelVoltage.Location = new System.Drawing.Point(137, 66);
+            this.labelVoltage.Name = "labelVoltage";
+            this.labelVoltage.Size = new System.Drawing.Size(13, 12);
+            this.labelVoltage.TabIndex = 39;
+            this.labelVoltage.Text = "V";
+            // 
+            // textBoxVoltage
+            // 
+            this.textBoxVoltage.Location = new System.Drawing.Point(32, 63);
+            this.textBoxVoltage.Name = "textBoxVoltage";
+            this.textBoxVoltage.Size = new System.Drawing.Size(92, 21);
+            this.textBoxVoltage.TabIndex = 38;
+            // 
+            // plusCVButton
+            // 
+            this.plusCVButton.Location = new System.Drawing.Point(32, 159);
+            this.plusCVButton.Name = "plusCVButton";
+            this.plusCVButton.Size = new System.Drawing.Size(50, 23);
+            this.plusCVButton.TabIndex = 40;
+            this.plusCVButton.Text = "+CV";
+            this.plusCVButton.UseVisualStyleBackColor = true;
             // 
             // CCMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(374, 174);
+            this.ClientSize = new System.Drawing.Size(373, 204);
+            this.Controls.Add(this.plusCVButton);
+            this.Controls.Add(this.labelVoltage);
+            this.Controls.Add(this.textBoxVoltage);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBoxUVP);
@@ -180,5 +211,8 @@
         private System.Windows.Forms.TextBox textBoxUVP;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBoxCurrent_A_us;
+        private System.Windows.Forms.Label labelVoltage;
+        private System.Windows.Forms.TextBox textBoxVoltage;
+        private System.Windows.Forms.Button plusCVButton;
     }
 }

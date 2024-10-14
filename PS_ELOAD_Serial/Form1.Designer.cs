@@ -33,6 +33,13 @@
             this.xAxis1 = new NationalInstruments.UI.XAxis();
             this.yAxis1 = new NationalInstruments.UI.YAxis();
             this.ELoad = new System.Windows.Forms.GroupBox();
+            this.LoadButton = new System.Windows.Forms.Button();
+            this.ApplyButton3 = new System.Windows.Forms.Button();
+            this.EC = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.EV = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
+            this.StaticButton = new System.Windows.Forms.Button();
             this.ModeButton = new System.Windows.Forms.Button();
             this.switch1 = new NationalInstruments.UI.WindowsForms.Switch();
             this.label8 = new System.Windows.Forms.Label();
@@ -79,16 +86,11 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.PS_LED = new NationalInstruments.UI.WindowsForms.Led();
-            this.StaticButton = new System.Windows.Forms.Button();
-            this.EC = new System.Windows.Forms.NumericUpDown();
-            this.label16 = new System.Windows.Forms.Label();
-            this.EV = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
             this.E_LED = new NationalInstruments.UI.WindowsForms.Led();
-            this.LoadButton = new System.Windows.Forms.Button();
-            this.ApplyButton3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).BeginInit();
             this.ELoad.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.PowerSupply.SuspendLayout();
@@ -100,8 +102,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.waveformGraph2)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PS_LED)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.E_LED)).BeginInit();
             this.SuspendLayout();
             // 
@@ -156,6 +156,82 @@
             this.ELoad.TabIndex = 1;
             this.ELoad.TabStop = false;
             this.ELoad.Text = "ELoad";
+            // 
+            // LoadButton
+            // 
+            this.LoadButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LoadButton.Location = new System.Drawing.Point(142, 273);
+            this.LoadButton.Name = "LoadButton";
+            this.LoadButton.Size = new System.Drawing.Size(75, 39);
+            this.LoadButton.TabIndex = 39;
+            this.LoadButton.Text = "Load";
+            this.LoadButton.UseVisualStyleBackColor = true;
+            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
+            // 
+            // ApplyButton3
+            // 
+            this.ApplyButton3.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ApplyButton3.Location = new System.Drawing.Point(16, 273);
+            this.ApplyButton3.Name = "ApplyButton3";
+            this.ApplyButton3.Size = new System.Drawing.Size(75, 39);
+            this.ApplyButton3.TabIndex = 38;
+            this.ApplyButton3.Text = "Apply";
+            this.ApplyButton3.UseVisualStyleBackColor = true;
+            this.ApplyButton3.Click += new System.EventHandler(this.ApplyButton3_Click);
+            // 
+            // EC
+            // 
+            this.EC.DecimalPlaces = 2;
+            this.EC.Location = new System.Drawing.Point(96, 238);
+            this.EC.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.EC.Name = "EC";
+            this.EC.Size = new System.Drawing.Size(120, 21);
+            this.EC.TabIndex = 44;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(16, 240);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(68, 12);
+            this.label16.TabIndex = 43;
+            this.label16.Text = "Current (A)";
+            // 
+            // EV
+            // 
+            this.EV.DecimalPlaces = 2;
+            this.EV.Location = new System.Drawing.Point(96, 196);
+            this.EV.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.EV.Name = "EV";
+            this.EV.Size = new System.Drawing.Size(120, 21);
+            this.EV.TabIndex = 42;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(17, 198);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(69, 12);
+            this.label18.TabIndex = 41;
+            this.label18.Text = "Voltage (V)";
+            // 
+            // StaticButton
+            // 
+            this.StaticButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.StaticButton.Location = new System.Drawing.Point(6, 130);
+            this.StaticButton.Name = "StaticButton";
+            this.StaticButton.Size = new System.Drawing.Size(99, 39);
+            this.StaticButton.TabIndex = 40;
+            this.StaticButton.Text = "Static Mode";
+            this.StaticButton.UseVisualStyleBackColor = true;
             // 
             // ModeButton
             // 
@@ -220,6 +296,7 @@
             this.CRButton.TabStop = true;
             this.CRButton.Text = "CR";
             this.CRButton.UseVisualStyleBackColor = true;
+            this.CRButton.CheckedChanged += new System.EventHandler(this.CRButton_CheckedChanged);
             // 
             // CVButton
             // 
@@ -242,6 +319,7 @@
             this.CCButton.TabStop = true;
             this.CCButton.Text = "CC";
             this.CCButton.UseVisualStyleBackColor = true;
+            this.CCButton.CheckedChanged += new System.EventHandler(this.CCButton_CheckedChanged);
             // 
             // groupBox5
             // 
@@ -615,60 +693,6 @@
             this.PS_LED.Size = new System.Drawing.Size(64, 64);
             this.PS_LED.TabIndex = 38;
             // 
-            // StaticButton
-            // 
-            this.StaticButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.StaticButton.Location = new System.Drawing.Point(6, 130);
-            this.StaticButton.Name = "StaticButton";
-            this.StaticButton.Size = new System.Drawing.Size(99, 39);
-            this.StaticButton.TabIndex = 40;
-            this.StaticButton.Text = "Static Mode";
-            this.StaticButton.UseVisualStyleBackColor = true;
-            // 
-            // EC
-            // 
-            this.EC.DecimalPlaces = 2;
-            this.EC.Location = new System.Drawing.Point(96, 238);
-            this.EC.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.EC.Name = "EC";
-            this.EC.Size = new System.Drawing.Size(120, 21);
-            this.EC.TabIndex = 44;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(16, 240);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(68, 12);
-            this.label16.TabIndex = 43;
-            this.label16.Text = "Current (A)";
-            // 
-            // EV
-            // 
-            this.EV.DecimalPlaces = 2;
-            this.EV.Location = new System.Drawing.Point(96, 196);
-            this.EV.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.EV.Name = "EV";
-            this.EV.Size = new System.Drawing.Size(120, 21);
-            this.EV.TabIndex = 42;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(17, 198);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(69, 12);
-            this.label18.TabIndex = 41;
-            this.label18.Text = "Voltage (V)";
-            // 
             // E_LED
             // 
             this.E_LED.LedStyle = NationalInstruments.UI.LedStyle.Round3D;
@@ -676,28 +700,6 @@
             this.E_LED.Name = "E_LED";
             this.E_LED.Size = new System.Drawing.Size(64, 64);
             this.E_LED.TabIndex = 39;
-            // 
-            // LoadButton
-            // 
-            this.LoadButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LoadButton.Location = new System.Drawing.Point(142, 273);
-            this.LoadButton.Name = "LoadButton";
-            this.LoadButton.Size = new System.Drawing.Size(75, 39);
-            this.LoadButton.TabIndex = 39;
-            this.LoadButton.Text = "Load";
-            this.LoadButton.UseVisualStyleBackColor = true;
-            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
-            // 
-            // ApplyButton3
-            // 
-            this.ApplyButton3.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ApplyButton3.Location = new System.Drawing.Point(16, 273);
-            this.ApplyButton3.Name = "ApplyButton3";
-            this.ApplyButton3.Size = new System.Drawing.Size(75, 39);
-            this.ApplyButton3.TabIndex = 38;
-            this.ApplyButton3.Text = "Apply";
-            this.ApplyButton3.UseVisualStyleBackColor = true;
-            this.ApplyButton3.Click += new System.EventHandler(this.ApplyButton3_Click);
             // 
             // Form1
             // 
@@ -717,6 +719,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).EndInit();
             this.ELoad.ResumeLayout(false);
             this.ELoad.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
@@ -731,8 +735,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PS_LED)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.E_LED)).EndInit();
             this.ResumeLayout(false);
 

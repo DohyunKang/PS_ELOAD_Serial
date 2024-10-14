@@ -596,7 +596,7 @@ namespace PS_ELOAD_Serial
                             MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
 
                             // CC 모드가 선택되었을 때 CCMode 폼을 열기
-                            CCMode ccModeForm = new CCMode();
+                            CCMode ccModeForm = new CCMode(serialPort);
                             DialogResult ccResult = ccModeForm.ShowDialog();
 
                             // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
@@ -606,13 +606,19 @@ namespace PS_ELOAD_Serial
                                 string currentValue = ccModeForm.CurrentValue;
                                 string opplValue = ccModeForm.OPPLValue;
                                 string uvpValue = ccModeForm.UVPValue;
-                                string inductanceValue = ccModeForm.InductanceValue; // 유도성 값
+                                string SLEWrateValue = ccModeForm.SLEWrateValue; // 유도성 값
 
                                 // 시리얼 포트를 통해 설정 값 전송
                                 SendCommandToELoad("CURR " + currentValue);        // 전류 값 전송
-                                SendCommandToELoad("IND " + inductanceValue);
+                                SendCommandToELoad("CURRent:SLEWrate " + SLEWrateValue);
                                 SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
                                 SendCommandToELoad("POW:PROT " + opplValue);       // OPPL 값 전송
+
+                                // +CV 모드가 활성화된 경우 전압 값도 전송
+                                if (!string.IsNullOrEmpty(ccModeForm.VoltageValue))
+                                {
+                                    SendCommandToELoad("VOLT " + ccModeForm.VoltageValue);
+                                }
 
                                 MessageBox.Show("CC 모드 설정이 완료되었습니다.", "설정 완료");
                             }
@@ -661,16 +667,16 @@ namespace PS_ELOAD_Serial
                     else if (selectedButton == CRButton)
                     {
                         command = "FUNC CR"; // CR 모드 설정 명령어
-
+                        
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
                             MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
 
                             // CR 모드가 선택되었을 때 CRMode 폼을 열기
-                            CRMode crModeForm = new CRMode();
+                            CRMode crModeForm = new CRMode(serialPort);
                             DialogResult crResult = crModeForm.ShowDialog();
-
+                            
                             // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
                             if (crResult == DialogResult.OK)
                             {
@@ -681,10 +687,16 @@ namespace PS_ELOAD_Serial
                                 string opplValue = crModeForm.OPPLValue;
 
                                 // 시리얼 포트를 통해 설정 값 전송
-                                SendCommandToELoad("RES " + impedanceValue);      // 임피던스 값 전송
+                                SendCommandToELoad("COND " + impedanceValue);      // 임피던스 값 전송
                                 SendCommandToELoad("VOLT:PROT:LOW " + uvpValue);  // UVP 값 전송
                                 SendCommandToELoad("CURR:PROT " + ocplValue);     // OCPL 값 전송
                                 SendCommandToELoad("POW:PROT " + opplValue);      // OPPL 값 전송
+
+                                // +CV 모드가 활성화된 경우 전압 값도 전송
+                                if (!string.IsNullOrEmpty(crModeForm.VoltageValue))
+                                {
+                                    SendCommandToELoad("VOLT " + crModeForm.VoltageValue);
+                                }
 
                                 MessageBox.Show("CR 모드 설정이 완료되었습니다.", "설정 완료");
                             }
@@ -902,6 +914,32 @@ namespace PS_ELOAD_Serial
                 MessageBox.Show("PS 상태 읽기 실패: " + ex.Message, "오류");
             }
             return "0"; // 읽기에 실패한 경우 0 반환
+        }
+
+        private void CRButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                // serialPort 객체를 생성자 인자로 전달하여 CRMode 창을 염
+                CRMode crModeForm = new CRMode(serialPort);
+            }
+            else
+            {
+                MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
+            }
+        }
+
+        private void CCButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                // serialPort 객체를 생성자 인자로 전달하여 CCMode 창을 염
+                CCMode ccModeForm = new CCMode(serialPort);
+            }
+            else
+            {
+                MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
+            }
         }
 
     }
