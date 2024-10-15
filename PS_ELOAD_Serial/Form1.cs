@@ -70,38 +70,6 @@ namespace PS_ELOAD_Serial
             ModeButton.Click += ModeButton_Click; // ModeButton의 Click 이벤트 핸들러 설정
         }
 
-        /*private void EloadDataTimer_Tick(object sender, EventArgs e)
-        {
-            // 시리얼 포트가 열려 있는지 확인
-            if (serialPort != null && serialPort.IsOpen)
-            {
-                try
-                {
-                    // 전압 값 읽기
-                    serialPort.WriteLine("MEAS:VOLT?");
-                    string eLoadVoltage = serialPort.ReadLine().Trim(); // 전압 값 수신
-
-                    // 전류 값 읽기
-                    serialPort.WriteLine("MEAS:CURR?");
-                    string eLoadCurrent = serialPort.ReadLine().Trim(); // 전류 값 수신
-
-                    // 실시간 값을 라벨에 업데이트
-                    lblVoltage.Text = string.Format("{0} V", eLoadVoltage);
-                    lblCurrent.Text = string.Format("{0} A", eLoadCurrent);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("데이터 수신 실패: " + ex.Message, "오류");
-                }
-            }
-            else
-            {
-                // 시리얼 포트가 열려 있지 않으면 타이머를 멈추고 에러 메시지
-                eLoadDataTimer.Stop();
-                MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
-            }
-        }*/
-
         private async void EloadDataTimer_Tick(object sender, EventArgs e)
         {
             if (serialPort != null && serialPort.IsOpen)
@@ -182,21 +150,6 @@ namespace PS_ELOAD_Serial
             string[] ports = SerialPort.GetPortNames(); // 사용 가능한 모든 COM 포트 가져오기
             comboBox1.Items.AddRange(ports); // COM 포트 목록 추가
         }
-
-        /*private void ModeButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Sequence sequenceWindow = new Sequence();
-                Console.WriteLine("Sequence 창을 생성했습니다.");
-                sequenceWindow.Show(); // Show()를 사용하여 Sequence 창 열기
-                Console.WriteLine("Sequence 창을 열었습니다.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Sequence 창을 열 때 오류가 발생했습니다: " + ex.Message);
-            }
-        }*/
 
         // ModeButton 클릭 시 실행되는 이벤트 핸들러
         private void ModeButton_Click(object sender, EventArgs e)
@@ -339,59 +292,6 @@ namespace PS_ELOAD_Serial
                 MessageBox.Show("ELoad가 연결되지 않았거나 Switch1이 OFF 상태입니다.", "설정 오류");
             }
         }
-
-        /*
-        private async void ApplyButton_Click(object sender, EventArgs e)
-        {
-            if (psConnected && switch2.Value)
-            {
-                double voltage = (double)PSVoltage.Value;
-                double current = (double)PSCurrent.Value;
-
-                // SendCommandToPS 메서드를 비동기로 호출하여 UI 스레드가 블로킹되지 않도록 함
-                await SendCommandToPSAsync("VOLT " + voltage.ToString("F2"));
-                await SendCommandToPSAsync("CURR " + current.ToString("F2"));
-
-                UpdatePSStatus();
-            }
-            else
-            {
-                MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
-            }
-        }
-
-        private async void ApplyButton2_Click(object sender, EventArgs e)
-        {
-            if (psConnected && switch2.Value)
-            {
-                double ovpValue = (double)PSOVP.Value;
-                double ocpValue = (double)PSOCP.Value;
-
-                if (ovpValue >= 10.65 && ovpValue <= 33.6 && ocpValue >= 15 && ocpValue <= 168)
-                {
-                    await SendCommandToPSAsync("VOLT:PROT " + ovpValue.ToString("F2"));
-                    await SendCommandToPSAsync("CURR:PROT " + ocpValue.ToString("F2"));
-                }
-                else
-                {
-                    MessageBox.Show("OVP와 OCP 설정 범위를 넘어섰습니다.", "설정 오류");
-                }
-
-                string currentOVPValue = await SendCommandAndReadResponseAsync("VOLT:PROT?");
-                string currentOCPValue = await SendCommandAndReadResponseAsync("CURR:PROT?");
-
-                lblOVP.Invoke(new Action(() => lblOVP.Text = currentOVPValue + " V"));
-                lblOCP.Invoke(new Action(() => lblOCP.Text = currentOCPValue + " A"));
-
-                MessageBox.Show("OVP와 OCP가 성공적으로 설정되었습니다.", "설정 완료");
-            }
-            else
-            {
-                MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
-            }
-        }*/
-
-
 
         private void InitializeGraph()
         {
@@ -540,37 +440,6 @@ namespace PS_ELOAD_Serial
             voltagePlot.PlotYAppend(voltageValue); // 전압 값 추가
             currentPlot.PlotYAppend(currentValue); // 전류 값 추가
         }
-
-
-        /*
-        private async void OutPutButton_Click(object sender, EventArgs e)
-        {
-            if (psConnected && switch2.Value)
-            {
-                // PS에 출력 활성화 명령 비동기로 전송
-                await SendCommandToPSAsync("OUTP 1\r");
-                MessageBox.Show("OUTP 1 명령 전송 완료", "디버깅");
-
-                // 명령 전송 후 상태를 확인하여 출력이 활성화되었는지 체크
-                string response = await SendCommandAndReadResponseAsync("OUTP?");
-                
-
-                if (response.Trim() == "1")  // 출력이 정상적으로 활성화된 경우
-                {
-                    MessageBox.Show("Power Supply 출력이 켜졌습니다.", "출력 활성화");
-                }
-                else  // 출력이 활성화되지 않은 경우
-                {
-                    MessageBox.Show("Power Supply 출력을 켜는 데 실패했습니다. 설정을 확인하세요.", "출력 오류");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Power Supply가 연결되지 않았거나 스위치가 꺼져 있습니다.", "설정 오류");
-            }
-        }*/
-
-
 
         // ELoad COM 포트에 연결하는 메서드 추가
         private void ConnectToSelectedPort()
@@ -863,51 +732,6 @@ namespace PS_ELOAD_Serial
                 return string.Empty;
             }
         }
-
-        /*
-        // 비동기 네트워크 통신 메서드 정의
-        private async Task SendCommandToPSAsync(string command)
-        {
-            try
-            {
-                if (psStream != null && psStream.CanWrite)
-                {
-                    byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\n");
-                    await psStream.WriteAsync(commandBytes, 0, commandBytes.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("PowerSupply 명령어 전송 실패: " + ex.Message, "명령어 오류");
-            }
-        }
-
-        // 비동기 응답 읽기 메서드 정의
-        private async Task<string> SendCommandAndReadResponseAsync(string command)
-        {
-            try
-            {
-                if (psStream != null && psStream.CanWrite && psStream.CanRead)
-                {
-                    byte[] commandBytes = Encoding.ASCII.GetBytes(command + "\r");
-                    await psStream.WriteAsync(commandBytes, 0, commandBytes.Length);
-
-                    byte[] buffer = new byte[1024];
-                    int bytesRead = await psStream.ReadAsync(buffer, 0, buffer.Length);
-                    return Encoding.ASCII.GetString(buffer, 0, bytesRead).Trim();
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("명령어 전송 실패: " + ex.Message, "오류");
-                return string.Empty;
-            }
-        }*/
-
 
         private void UpdatePSStatus()
         {
