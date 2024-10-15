@@ -33,7 +33,7 @@
             this.label20 = new System.Windows.Forms.Label();
             this.LoadButton = new System.Windows.Forms.Button();
             this.ApplyButton3 = new System.Windows.Forms.Button();
-            this.StaticButton = new System.Windows.Forms.Button();
+            this.ParameterButton = new System.Windows.Forms.Button();
             this.ModeButton = new System.Windows.Forms.Button();
             this.switch1 = new NationalInstruments.UI.WindowsForms.Switch();
             this.label8 = new System.Windows.Forms.Label();
@@ -77,6 +77,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.PS_LED = new NationalInstruments.UI.WindowsForms.Led();
             this.E_LED = new NationalInstruments.UI.WindowsForms.Led();
+            this.SequenceRun = new System.Windows.Forms.Button();
             this.ELoad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.periodNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).BeginInit();
@@ -95,11 +96,11 @@
             // 
             // ELoad
             // 
+            this.ELoad.Controls.Add(this.SequenceRun);
             this.ELoad.Controls.Add(this.periodNumeric);
             this.ELoad.Controls.Add(this.label20);
             this.ELoad.Controls.Add(this.LoadButton);
             this.ELoad.Controls.Add(this.ApplyButton3);
-            this.ELoad.Controls.Add(this.StaticButton);
             this.ELoad.Controls.Add(this.ModeButton);
             this.ELoad.Controls.Add(this.switch1);
             this.ELoad.Controls.Add(this.label8);
@@ -160,20 +161,21 @@
             this.ApplyButton3.UseVisualStyleBackColor = true;
             this.ApplyButton3.Click += new System.EventHandler(this.ApplyButton3_Click);
             // 
-            // StaticButton
+            // ParameterButton
             // 
-            this.StaticButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.StaticButton.Location = new System.Drawing.Point(6, 130);
-            this.StaticButton.Name = "StaticButton";
-            this.StaticButton.Size = new System.Drawing.Size(99, 39);
-            this.StaticButton.TabIndex = 40;
-            this.StaticButton.Text = "Static Mode";
-            this.StaticButton.UseVisualStyleBackColor = true;
+            this.ParameterButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ParameterButton.Location = new System.Drawing.Point(450, 254);
+            this.ParameterButton.Name = "ParameterButton";
+            this.ParameterButton.Size = new System.Drawing.Size(99, 39);
+            this.ParameterButton.TabIndex = 40;
+            this.ParameterButton.Text = "Parameter Load";
+            this.ParameterButton.UseVisualStyleBackColor = true;
+            this.ParameterButton.Click += new System.EventHandler(this.ParameterButton_Click);
             // 
             // ModeButton
             // 
             this.ModeButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ModeButton.Location = new System.Drawing.Point(127, 130);
+            this.ModeButton.Location = new System.Drawing.Point(6, 138);
             this.ModeButton.Name = "ModeButton";
             this.ModeButton.Size = new System.Drawing.Size(99, 39);
             this.ModeButton.TabIndex = 39;
@@ -262,6 +264,7 @@
             this.groupBox5.Controls.Add(this.lblVoltage);
             this.groupBox5.Controls.Add(this.label11);
             this.groupBox5.Controls.Add(this.label12);
+            this.groupBox5.Controls.Add(this.ParameterButton);
             this.groupBox5.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox5.ForeColor = System.Drawing.SystemColors.InfoText;
             this.groupBox5.Location = new System.Drawing.Point(328, 138);
@@ -602,6 +605,17 @@
             this.E_LED.Size = new System.Drawing.Size(64, 64);
             this.E_LED.TabIndex = 39;
             // 
+            // SequenceRun
+            // 
+            this.SequenceRun.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.SequenceRun.Location = new System.Drawing.Point(127, 138);
+            this.SequenceRun.Name = "SequenceRun";
+            this.SequenceRun.Size = new System.Drawing.Size(99, 39);
+            this.SequenceRun.TabIndex = 46;
+            this.SequenceRun.Text = "Sequence Run/Stop";
+            this.SequenceRun.UseVisualStyleBackColor = true;
+            this.SequenceRun.Click += new System.EventHandler(this.SequenceRun_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -683,12 +697,13 @@
         private NationalInstruments.UI.WindowsForms.Led PS_LED;
         private NationalInstruments.UI.WindowsForms.Switch switch1;
         private System.Windows.Forms.Button ModeButton;
-        private System.Windows.Forms.Button StaticButton;
+        private System.Windows.Forms.Button ParameterButton;
         private NationalInstruments.UI.WindowsForms.Led E_LED;
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button ApplyButton3;
         private System.Windows.Forms.NumericUpDown periodNumeric;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button SequenceRun;
     }
 }
 

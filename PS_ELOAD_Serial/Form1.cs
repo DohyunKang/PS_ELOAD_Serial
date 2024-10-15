@@ -25,6 +25,8 @@ namespace PS_ELOAD_Serial
         private double voltageValue;
         private double currentValue;
         private double result;
+        private bool isParameterButtonToggled = false;  // 버튼 상태를 저장할 변수
+        private bool isSequenceRunning = false; // 시퀀스 실행 상태를 저장하는 변수
 
         private System.Windows.Forms.Timer psDataTimer; // Windows Forms Timer
         private System.Windows.Forms.Timer eLoadDataTimer; // ELoad 데이터 타이머
@@ -115,16 +117,16 @@ namespace PS_ELOAD_Serial
 
         // 과학적 표기법으로 표현된 값을 처리하는 메서드 (음수 값도 포함하여 처리)
         private double ParseScientificNotation(string value)
-{
-    if (double.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result))
-    {
-        return result;
-    }
-    else
-    {
-        throw new FormatException("유효하지 않은 값: " + value);
-    }
-}
+        {
+            if (double.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result))
+            {
+                return result;
+            }
+            else
+            {
+                throw new FormatException("유효하지 않은 값: " + value);
+            }
+        }
 
         // 값의 범위를 제한하는 메서드 (오버플로 방지, 음수 값 허용)
         private double LimitValueRange(double value, double min, double max)
@@ -161,7 +163,8 @@ namespace PS_ELOAD_Serial
         // Sequence 창을 여는 메서드 (Delegate에 연결)
         private void OpenSequenceWindow()
         {
-            Sequence sequenceWindow = new Sequence();
+            // Sequence 창을 SerialPort와 함께 열기
+            Sequence sequenceWindow = new Sequence(serialPort);
             sequenceWindow.Show(); // 모달리스 창 열기
             MessageBox.Show("Sequence 창이 열렸습니다.");
         }
@@ -173,10 +176,6 @@ namespace PS_ELOAD_Serial
             {
                 // 스위치가 켜질 때 연결 시도
                 ConnectToSelectedPort();
-                if (isConnected)  // 시리얼 연결이 성공한 경우에만 타이머 시작
-                {
-                    eLoadDataTimer.Start(); // 주기적으로 데이터 읽기 시작            
-                }
             }
             else
             {
@@ -477,7 +476,6 @@ namespace PS_ELOAD_Serial
                 {
                     // ELoad 시리얼 포트 설정
                     serialPort = new SerialPort(comboBox1.SelectedItem.ToString(), 19200, Parity.None, 8, StopBits.One);
-                    //serialPort.DataReceived += new SerialDataReceivedEventHandler(ELoadDataReceivedHandler); // 데이터 수신 핸들러 연결
                     serialPort.Open();
                     isConnected = true; // 연결 상태 업데이트
                     MessageBox.Show("ELoad 연결 성공: " + comboBox1.SelectedItem.ToString(), "연결 상태");
@@ -837,6 +835,69 @@ namespace PS_ELOAD_Serial
             else
             {
                 MessageBox.Show("ELoad가 연결되지 않았습니다.", "오류");
+            }
+        }
+
+        private void ParameterButton_Click(object sender, EventArgs e)
+        {
+            // 버튼 상태를 토글
+            isParameterButtonToggled = !isParameterButtonToggled;
+
+            if (isParameterButtonToggled)
+            {
+                if (isConnected)  // 시리얼 연결이 성공한 경우에만 타이머 시작
+                {
+                    eLoadDataTimer.Start(); // 주기적으로 데이터 읽기 시작
+                    MessageBox.Show("데이터 수집 시작");
+                }
+                else
+                {
+                    MessageBox.Show("시리얼 포트가 연결되지 않았습니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // 타이머 중지
+                eLoadDataTimer.Stop();
+                MessageBox.Show("데이터 수집 중지 및 포트 해제");
+            }
+        }
+
+        private void SequenceRun_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (serialPort != null && serialPort.IsOpen)
+                {
+                    if (!isSequenceRunning) // 시퀀스가 실행 중이지 않은 경우 실행
+                    {
+                        // 시퀀스 실행 명령어를 전송
+                        serialPort.WriteLine("INIT:TRAN:PROG");  // Eload 명령어 형식에 맞춰 수정
+
+                        // 상태 업데이트
+                        isSequenceRunning = true;
+                        SequenceRun.Text = "Stop Sequence";  // 버튼 텍스트 변경
+                        MessageBox.Show("Sequence 모드가 실행되었습니다.", "Sequence 실행");
+                    }
+                    else // 시퀀스가 이미 실행 중인 경우 중지
+                    {
+                        // 시퀀스 중지 명령어를 전송
+                        serialPort.WriteLine("ABOR");  // Eload 명령어 형식에 맞춰 수정
+
+                        // 상태 업데이트
+                        isSequenceRunning = false;
+                        SequenceRun.Text = "Start Sequence";  // 버튼 텍스트 변경
+                        MessageBox.Show("Sequence 모드가 중지되었습니다.", "Sequence 중지");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("시리얼 포트가 열려 있지 않습니다.", "포트 오류");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sequence 모드 실행/중지 중 오류 발생: " + ex.Message, "오류");
             }
         }
 

@@ -50,5 +50,10 @@ namespace PS_ELOAD_Serial
                 MessageBox.Show("Error loading program settings: " + ex.Message);
             }
         }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
