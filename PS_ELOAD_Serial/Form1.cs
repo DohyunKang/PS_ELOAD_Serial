@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.IO.Ports;
 using System.IO;
 using System.Net.Sockets;
@@ -22,8 +22,12 @@ namespace PS_ELOAD_Serial
         private bool psConnected = false; // PowerSupply 연결 상태를 확인하기 위한 변수
         private bool isGraphUpdating = false; // 그래프 업데이트 여부 확인 변수 (추가)
         private readonly object _commandLock = new object(); // 명령어 전송을 위한 Lock 객체
+        private double voltageValue;
+        private double currentValue;
+        private double result;
 
         private System.Windows.Forms.Timer psDataTimer; // Windows Forms Timer
+        private System.Windows.Forms.Timer eLoadDataTimer; // ELoad 데이터 타이머
         private double elapsedTime; // 그래프의 시간 흐름을 나타내는 변수
         private WaveformPlot voltagePlot; // 전압 값 플롯
         private WaveformPlot currentPlot; // 전류 값 플롯
@@ -48,9 +52,13 @@ namespace PS_ELOAD_Serial
             CVButton.CheckedChanged += ELoadRadioButton_CheckedChanged;
             CRButton.CheckedChanged += ELoadRadioButton_CheckedChanged;
 
+            // 타이머 초기화
+            eLoadDataTimer = new System.Windows.Forms.Timer();
+            eLoadDataTimer.Interval = 500;
+            eLoadDataTimer.Tick += new EventHandler(EloadDataTimer_Tick); // 타이머 이벤트 핸들러 등록
+
             psDataTimer = new System.Windows.Forms.Timer();
             psDataTimer.Interval = 100; // 100ms 간격으로 타이머 이벤트 발생
-
             psDataTimer.Tick += new EventHandler(PsDataTimer_Tick); // 타이머 이벤트 핸들러 등록
 
             // 그래프 초기화 설정
@@ -60,6 +68,101 @@ namespace PS_ELOAD_Serial
             OpenSequenceDelegate = OpenSequenceWindow;
 
             ModeButton.Click += ModeButton_Click; // ModeButton의 Click 이벤트 핸들러 설정
+        }
+
+        /*private void EloadDataTimer_Tick(object sender, EventArgs e)
+        {
+            // 시리얼 포트가 열려 있는지 확인
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                try
+                {
+                    // 전압 값 읽기
+                    serialPort.WriteLine("MEAS:VOLT?");
+                    string eLoadVoltage = serialPort.ReadLine().Trim(); // 전압 값 수신
+
+                    // 전류 값 읽기
+                    serialPort.WriteLine("MEAS:CURR?");
+                    string eLoadCurrent = serialPort.ReadLine().Trim(); // 전류 값 수신
+
+                    // 실시간 값을 라벨에 업데이트
+                    lblVoltage.Text = string.Format("{0} V", eLoadVoltage);
+                    lblCurrent.Text = string.Format("{0} A", eLoadCurrent);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("데이터 수신 실패: " + ex.Message, "오류");
+                }
+            }
+            else
+            {
+                // 시리얼 포트가 열려 있지 않으면 타이머를 멈추고 에러 메시지
+                eLoadDataTimer.Stop();
+                MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
+            }
+        }*/
+
+        private async void EloadDataTimer_Tick(object sender, EventArgs e)
+        {
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                try
+                {
+                    // 비동기로 전압 값 읽기
+                    serialPort.WriteLine("MEAS:VOLT?");
+                    string eLoadVoltage = await Task.Run(() => serialPort.ReadLine());
+
+                    // 값을 미리 특정 범위 내로 자르기 (음수와 오버플로 방지)
+                    voltageValue = LimitValueRange(ParseScientificNotation(eLoadVoltage), -10000, 10000);
+
+                    // 비동기로 전류 값 읽기
+                    serialPort.WriteLine("MEAS:CURR?");
+                    string eLoadCurrent = await Task.Run(() => serialPort.ReadLine());
+
+                    // 값을 미리 특정 범위 내로 자르기 (음수와 오버플로 방지)
+                    currentValue = LimitValueRange(ParseScientificNotation(eLoadCurrent), -10000, 10000);
+
+                    // UI 업데이트는 반드시 UI 스레드에서 실행해야 함
+                    BeginInvoke(new Action(() =>
+                    {
+                        lblVoltage.Text = string.Format("{0} V", voltageValue);
+                        lblCurrent.Text = string.Format("{0} A", currentValue);
+                    }));
+                }
+                catch (TimeoutException ex)
+                {
+                    MessageBox.Show("시리얼 포트 데이터 수신 시간이 초과되었습니다: " + ex.Message, "오류");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("데이터 수신 실패: " + ex.Message, "오류");
+                }
+            }
+            else
+            {
+                eLoadDataTimer.Stop();
+                MessageBox.Show("ELoad 시리얼 포트가 연결되지 않았습니다.", "오류");
+            }
+        }
+
+        // 과학적 표기법으로 표현된 값을 처리하는 메서드 (음수 값도 포함하여 처리)
+        private double ParseScientificNotation(string value)
+{
+    if (double.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result))
+    {
+        return result;
+    }
+    else
+    {
+        throw new FormatException("유효하지 않은 값: " + value);
+    }
+}
+
+        // 값의 범위를 제한하는 메서드 (오버플로 방지, 음수 값 허용)
+        private double LimitValueRange(double value, double min, double max)
+        {
+            // 값이 최소값보다 작으면 최소값 반환, 최대값보다 크면 최대값 반환
+            return Math.Max(min, Math.Min(value, max));
         }
 
 
@@ -117,11 +220,15 @@ namespace PS_ELOAD_Serial
             {
                 // 스위치가 켜질 때 연결 시도
                 ConnectToSelectedPort();
-                GetAndShowMeasurements(); // E-load 및 AI 값 측정 및 표시
+                if (isConnected)  // 시리얼 연결이 성공한 경우에만 타이머 시작
+                {
+                    eLoadDataTimer.Start(); // 주기적으로 데이터 읽기 시작            
+                }
             }
             else
             {
                 // 스위치가 꺼질 때 연결 해제
+                eLoadDataTimer.Stop(); // 타이머 중지
                 DisconnectPort();
             }
         }
@@ -208,16 +315,18 @@ namespace PS_ELOAD_Serial
             {
                 try
                 {
-                    // EV와 EC의 값 가져오기
-                    double voltage = (double)EV.Value; // EV 컨트롤의 값을 double 타입으로 가져옴
-                    double current = (double)EC.Value; // EC 컨트롤의 값을 double 타입으로 가져옴
+                    // NumericUpDown 컨트롤에서 설정한 주기 값을 가져와서 타이머에 적용
+                    int period = (int)periodNumeric.Value; // periodNumeric은 주기를 설정하는 NumericUpDown 컨트롤
+                    eLoadDataTimer.Interval = period;
 
-                    // 전압 설정 명령어를 ELoad에 전송
-                    SendCommandToELoad("VOLT " + voltage.ToString("F2")); // ELoad에 전압 설정 명령어 전송
-                    // 전류 설정 명령어를 ELoad에 전송
-                    SendCommandToELoad("CURR " + current.ToString("F2")); // ELoad에 전류 설정 명령어 전송
+                    // 타이머 시작 (이미 시작된 경우에도 재시작)
+                    if (!eLoadDataTimer.Enabled)
+                    {
+                        eLoadDataTimer.Start();
+                    }
 
-                    MessageBox.Show("Voltage 및 Current가 ELoad에 적용되었습니다.", "설정 완료");
+                    // 주기 설정 완료 메시지
+                    MessageBox.Show("데이터 수집 주기가 {period} ms로 설정되었습니다.", "주기 설정 완료");
                 }
                 catch (Exception ex)
                 {
@@ -472,7 +581,7 @@ namespace PS_ELOAD_Serial
                 {
                     // ELoad 시리얼 포트 설정
                     serialPort = new SerialPort(comboBox1.SelectedItem.ToString(), 19200, Parity.None, 8, StopBits.One);
-                    serialPort.DataReceived += new SerialDataReceivedEventHandler(ELoadDataReceivedHandler); // 데이터 수신 핸들러 연결
+                    //serialPort.DataReceived += new SerialDataReceivedEventHandler(ELoadDataReceivedHandler); // 데이터 수신 핸들러 연결
                     serialPort.Open();
                     isConnected = true; // 연결 상태 업데이트
                     MessageBox.Show("ELoad 연결 성공: " + comboBox1.SelectedItem.ToString(), "연결 상태");
@@ -511,68 +620,6 @@ namespace PS_ELOAD_Serial
             else
             {
                 MessageBox.Show("ELoad가 연결되지 않았습니다.", "연결 상태");
-            }
-        }
-
-        // E-load 및 AI 전압/전류 측정 및 출력 메서드 추가
-        private void GetAndShowMeasurements()
-        {
-            if (serialPort != null && isConnected)
-            {
-                // 측정 값 초기화
-                string eLoadVoltage = "0";
-                string eLoadCurrent = "0";
-                string aiCurrent = "0";
-
-                // E-load 전압 요청 및 읽기
-                try
-                {
-                    serialPort.WriteLine("MEAS:VOLT?");
-                    eLoadVoltage = serialPort.ReadLine().Trim(); // E-load 전압 읽기
-                }
-                catch
-                {
-                    eLoadVoltage = "0"; // 읽기에 실패할 경우 0으로 설정
-                }
-
-                // E-load 전류 요청 및 읽기
-                try
-                {
-                    serialPort.WriteLine("MEAS:CURR?");
-                    eLoadCurrent = serialPort.ReadLine().Trim(); // E-load 전류 읽기
-                }
-                catch
-                {
-                    eLoadCurrent = "0"; // 읽기에 실패할 경우 0으로 설정
-                }
-
-                // 메세지 박스로 측정 값 출력
-                MessageBox.Show(string.Format("E-load Voltage: {0} V\nE-load Current: {1} A", eLoadVoltage, eLoadCurrent), "Measurement Results");
-                // 각 텍스트 박스에 측정 값 표시
-                lblVoltage.Invoke(new System.Action(() => lblVoltage.Text = eLoadVoltage + " V"));
-                lblCurrent.Invoke(new System.Action(() => lblCurrent.Text = eLoadCurrent + " A"));
-                lblAi.Invoke(new System.Action(() => lblAi.Text = aiCurrent + " A"));
-            }
-            else
-            {
-                MessageBox.Show("Power Supply가 연결되지 않았습니다.", "측정 오류");
-            }
-        }
-
-        // ELoad 데이터 수신 이벤트 핸들러 추가
-        private void ELoadDataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
-        {
-            try
-            {
-                string data = serialPort.ReadLine(); // 수신된 데이터를 읽어옴
-                this.Invoke(new System.Action(() =>
-                {
-                    lblAi.Text = data; // 수신된 데이터를 TextBox에 표시 (예시)
-                }));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("데이터 수신 실패: " + ex.Message, "데이터 수신 상태");
             }
         }
 
@@ -667,7 +714,7 @@ namespace PS_ELOAD_Serial
                     else if (selectedButton == CRButton)
                     {
                         command = "FUNC CR"; // CR 모드 설정 명령어
-                        
+
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
@@ -676,7 +723,7 @@ namespace PS_ELOAD_Serial
                             // CR 모드가 선택되었을 때 CRMode 폼을 열기
                             CRMode crModeForm = new CRMode(serialPort);
                             DialogResult crResult = crModeForm.ShowDialog();
-                            
+
                             // 사용자가 OK 버튼을 클릭했을 때만 설정값을 적용
                             if (crResult == DialogResult.OK)
                             {

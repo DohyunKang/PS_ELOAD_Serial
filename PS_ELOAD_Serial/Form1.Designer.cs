@@ -28,17 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.waveformGraph1 = new NationalInstruments.UI.WindowsForms.WaveformGraph();
-            this.waveformPlot1 = new NationalInstruments.UI.WaveformPlot();
-            this.xAxis1 = new NationalInstruments.UI.XAxis();
-            this.yAxis1 = new NationalInstruments.UI.YAxis();
             this.ELoad = new System.Windows.Forms.GroupBox();
+            this.periodNumeric = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
             this.LoadButton = new System.Windows.Forms.Button();
             this.ApplyButton3 = new System.Windows.Forms.Button();
-            this.EC = new System.Windows.Forms.NumericUpDown();
-            this.label16 = new System.Windows.Forms.Label();
-            this.EV = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
             this.StaticButton = new System.Windows.Forms.Button();
             this.ModeButton = new System.Windows.Forms.Button();
             this.switch1 = new NationalInstruments.UI.WindowsForms.Switch();
@@ -50,10 +44,8 @@
             this.CVButton = new System.Windows.Forms.RadioButton();
             this.CCButton = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.lblAi = new System.Windows.Forms.Label();
             this.lblCurrent = new System.Windows.Forms.Label();
             this.lblVoltage = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.PowerSupply = new System.Windows.Forms.GroupBox();
@@ -87,10 +79,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.PS_LED = new NationalInstruments.UI.WindowsForms.Led();
             this.E_LED = new NationalInstruments.UI.WindowsForms.Led();
-            ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).BeginInit();
             this.ELoad.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.EC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.periodNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.PowerSupply.SuspendLayout();
@@ -105,41 +95,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.E_LED)).BeginInit();
             this.SuspendLayout();
             // 
-            // waveformGraph1
-            // 
-            this.waveformGraph1.Location = new System.Drawing.Point(277, 96);
-            this.waveformGraph1.Name = "waveformGraph1";
-            this.waveformGraph1.Plots.AddRange(new NationalInstruments.UI.WaveformPlot[] {
-            this.waveformPlot1});
-            this.waveformGraph1.Size = new System.Drawing.Size(649, 254);
-            this.waveformGraph1.TabIndex = 0;
-            this.waveformGraph1.UseColorGenerator = true;
-            this.waveformGraph1.XAxes.AddRange(new NationalInstruments.UI.XAxis[] {
-            this.xAxis1});
-            this.waveformGraph1.YAxes.AddRange(new NationalInstruments.UI.YAxis[] {
-            this.yAxis1});
-            // 
-            // waveformPlot1
-            // 
-            this.waveformPlot1.XAxis = this.xAxis1;
-            this.waveformPlot1.YAxis = this.yAxis1;
-            // 
-            // xAxis1
-            // 
-            this.xAxis1.Caption = "Time";
-            // 
-            // yAxis1
-            // 
-            this.yAxis1.Caption = "Volt (V)";
-            // 
             // ELoad
             // 
+            this.ELoad.Controls.Add(this.periodNumeric);
+            this.ELoad.Controls.Add(this.label20);
             this.ELoad.Controls.Add(this.LoadButton);
             this.ELoad.Controls.Add(this.ApplyButton3);
-            this.ELoad.Controls.Add(this.EC);
-            this.ELoad.Controls.Add(this.label16);
-            this.ELoad.Controls.Add(this.EV);
-            this.ELoad.Controls.Add(this.label18);
             this.ELoad.Controls.Add(this.StaticButton);
             this.ELoad.Controls.Add(this.ModeButton);
             this.ELoad.Controls.Add(this.switch1);
@@ -156,6 +117,28 @@
             this.ELoad.TabIndex = 1;
             this.ELoad.TabStop = false;
             this.ELoad.Text = "ELoad";
+            // 
+            // periodNumeric
+            // 
+            this.periodNumeric.DecimalPlaces = 2;
+            this.periodNumeric.Location = new System.Drawing.Point(55, 235);
+            this.periodNumeric.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.periodNumeric.Name = "periodNumeric";
+            this.periodNumeric.Size = new System.Drawing.Size(120, 21);
+            this.periodNumeric.TabIndex = 45;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(45, 203);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(137, 12);
+            this.label20.TabIndex = 45;
+            this.label20.Text = "Eload parameter period";
             // 
             // LoadButton
             // 
@@ -178,50 +161,6 @@
             this.ApplyButton3.Text = "Apply";
             this.ApplyButton3.UseVisualStyleBackColor = true;
             this.ApplyButton3.Click += new System.EventHandler(this.ApplyButton3_Click);
-            // 
-            // EC
-            // 
-            this.EC.DecimalPlaces = 2;
-            this.EC.Location = new System.Drawing.Point(96, 238);
-            this.EC.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.EC.Name = "EC";
-            this.EC.Size = new System.Drawing.Size(120, 21);
-            this.EC.TabIndex = 44;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(16, 240);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(68, 12);
-            this.label16.TabIndex = 43;
-            this.label16.Text = "Current (A)";
-            // 
-            // EV
-            // 
-            this.EV.DecimalPlaces = 2;
-            this.EV.Location = new System.Drawing.Point(96, 196);
-            this.EV.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.EV.Name = "EV";
-            this.EV.Size = new System.Drawing.Size(120, 21);
-            this.EV.TabIndex = 42;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(17, 198);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(69, 12);
-            this.label18.TabIndex = 41;
-            this.label18.Text = "Voltage (V)";
             // 
             // StaticButton
             // 
@@ -293,7 +232,6 @@
             this.CRButton.Name = "CRButton";
             this.CRButton.Size = new System.Drawing.Size(40, 16);
             this.CRButton.TabIndex = 5;
-            this.CRButton.TabStop = true;
             this.CRButton.Text = "CR";
             this.CRButton.UseVisualStyleBackColor = true;
             this.CRButton.CheckedChanged += new System.EventHandler(this.CRButton_CheckedChanged);
@@ -305,7 +243,6 @@
             this.CVButton.Name = "CVButton";
             this.CVButton.Size = new System.Drawing.Size(40, 16);
             this.CVButton.TabIndex = 4;
-            this.CVButton.TabStop = true;
             this.CVButton.Text = "CV";
             this.CVButton.UseVisualStyleBackColor = true;
             // 
@@ -316,77 +253,63 @@
             this.CCButton.Name = "CCButton";
             this.CCButton.Size = new System.Drawing.Size(41, 16);
             this.CCButton.TabIndex = 3;
-            this.CCButton.TabStop = true;
             this.CCButton.Text = "CC";
             this.CCButton.UseVisualStyleBackColor = true;
             this.CCButton.CheckedChanged += new System.EventHandler(this.CCButton_CheckedChanged);
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.lblAi);
+            this.groupBox5.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.groupBox5.Controls.Add(this.lblCurrent);
             this.groupBox5.Controls.Add(this.lblVoltage);
-            this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Controls.Add(this.label11);
             this.groupBox5.Controls.Add(this.label12);
-            this.groupBox5.Location = new System.Drawing.Point(277, 377);
+            this.groupBox5.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox5.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.groupBox5.Location = new System.Drawing.Point(328, 138);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(649, 57);
+            this.groupBox5.Size = new System.Drawing.Size(565, 310);
             this.groupBox5.TabIndex = 30;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "ELoad Parameter";
             // 
-            // lblAi
-            // 
-            this.lblAi.AutoSize = true;
-            this.lblAi.Location = new System.Drawing.Point(549, 26);
-            this.lblAi.Name = "lblAi";
-            this.lblAi.Size = new System.Drawing.Size(11, 12);
-            this.lblAi.TabIndex = 28;
-            this.lblAi.Text = "0";
-            // 
             // lblCurrent
             // 
             this.lblCurrent.AutoSize = true;
-            this.lblCurrent.Location = new System.Drawing.Point(343, 26);
+            this.lblCurrent.Font = new System.Drawing.Font("굴림", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblCurrent.Location = new System.Drawing.Point(248, 195);
             this.lblCurrent.Name = "lblCurrent";
-            this.lblCurrent.Size = new System.Drawing.Size(11, 12);
+            this.lblCurrent.Size = new System.Drawing.Size(38, 37);
             this.lblCurrent.TabIndex = 27;
             this.lblCurrent.Text = "0";
             // 
             // lblVoltage
             // 
             this.lblVoltage.AutoSize = true;
-            this.lblVoltage.Location = new System.Drawing.Point(121, 26);
+            this.lblVoltage.Font = new System.Drawing.Font("굴림", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblVoltage.Location = new System.Drawing.Point(248, 103);
             this.lblVoltage.Name = "lblVoltage";
-            this.lblVoltage.Size = new System.Drawing.Size(11, 12);
+            this.lblVoltage.Size = new System.Drawing.Size(38, 37);
             this.lblVoltage.TabIndex = 26;
             this.lblVoltage.Text = "0";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(446, 26);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(61, 12);
-            this.label10.TabIndex = 20;
-            this.label10.Text = "AI Current";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(237, 26);
+            this.label11.Font = new System.Drawing.Font("굴림", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label11.Location = new System.Drawing.Point(13, 195);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(71, 12);
+            this.label11.Size = new System.Drawing.Size(213, 37);
             this.label11.TabIndex = 25;
             this.label11.Text = "E/L Current";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(14, 26);
+            this.label12.Font = new System.Drawing.Font("굴림", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label12.Location = new System.Drawing.Point(10, 103);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(72, 12);
+            this.label12.Size = new System.Drawing.Size(216, 37);
             this.label12.TabIndex = 24;
             this.label12.Text = "E/L Voltage";
             // 
@@ -696,7 +619,7 @@
             // E_LED
             // 
             this.E_LED.LedStyle = NationalInstruments.UI.LedStyle.Round3D;
-            this.E_LED.Location = new System.Drawing.Point(277, 30);
+            this.E_LED.Location = new System.Drawing.Point(345, 68);
             this.E_LED.Name = "E_LED";
             this.E_LED.Size = new System.Drawing.Size(64, 64);
             this.E_LED.TabIndex = 39;
@@ -713,14 +636,11 @@
             this.Controls.Add(this.PowerSupply);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.ELoad);
-            this.Controls.Add(this.waveformGraph1);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).EndInit();
             this.ELoad.ResumeLayout(false);
             this.ELoad.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.EC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.periodNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
@@ -742,10 +662,6 @@
 
         #endregion
 
-        private NationalInstruments.UI.WindowsForms.WaveformGraph waveformGraph1;
-        private NationalInstruments.UI.WaveformPlot waveformPlot1;
-        private NationalInstruments.UI.XAxis xAxis1;
-        private NationalInstruments.UI.YAxis yAxis1;
         private System.Windows.Forms.GroupBox ELoad;
         private System.Windows.Forms.RadioButton CVButton;
         private System.Windows.Forms.RadioButton CCButton; 
@@ -753,12 +669,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label lblAi;
         private System.Windows.Forms.Label lblCurrent;
         private System.Windows.Forms.Label lblVoltage;
         private System.Windows.Forms.GroupBox PowerSupply;
@@ -794,13 +708,11 @@
         private NationalInstruments.UI.WindowsForms.Switch switch1;
         private System.Windows.Forms.Button ModeButton;
         private System.Windows.Forms.Button StaticButton;
-        private System.Windows.Forms.NumericUpDown EC;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.NumericUpDown EV;
-        private System.Windows.Forms.Label label18;
         private NationalInstruments.UI.WindowsForms.Led E_LED;
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button ApplyButton3;
+        private System.Windows.Forms.NumericUpDown periodNumeric;
+        private System.Windows.Forms.Label label20;
     }
 }
 
