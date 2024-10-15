@@ -71,10 +71,8 @@
             this.label19 = new System.Windows.Forms.Label();
             this.lblOVP = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.lblPC = new System.Windows.Forms.Label();
             this.lblPV = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.PS_LED = new NationalInstruments.UI.WindowsForms.Led();
@@ -505,10 +503,8 @@
             this.groupBox1.Controls.Add(this.label19);
             this.groupBox1.Controls.Add(this.lblOVP);
             this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.lblPC);
             this.groupBox1.Controls.Add(this.lblPV);
-            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Location = new System.Drawing.Point(277, 891);
@@ -521,7 +517,7 @@
             // lblOCP
             // 
             this.lblOCP.AutoSize = true;
-            this.lblOCP.Location = new System.Drawing.Point(450, 67);
+            this.lblOCP.Location = new System.Drawing.Point(461, 67);
             this.lblOCP.Name = "lblOCP";
             this.lblOCP.Size = new System.Drawing.Size(11, 12);
             this.lblOCP.TabIndex = 32;
@@ -530,7 +526,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(343, 67);
+            this.label19.Location = new System.Drawing.Point(358, 67);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(57, 12);
             this.label19.TabIndex = 31;
@@ -554,19 +550,10 @@
             this.label17.TabIndex = 29;
             this.label17.Text = "P/S OVP";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(549, 26);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(11, 12);
-            this.label5.TabIndex = 28;
-            this.label5.Text = "0";
-            // 
             // lblPC
             // 
             this.lblPC.AutoSize = true;
-            this.lblPC.Location = new System.Drawing.Point(343, 26);
+            this.lblPC.Location = new System.Drawing.Point(461, 28);
             this.lblPC.Name = "lblPC";
             this.lblPC.Size = new System.Drawing.Size(11, 12);
             this.lblPC.TabIndex = 27;
@@ -575,25 +562,16 @@
             // lblPV
             // 
             this.lblPV.AutoSize = true;
-            this.lblPV.Location = new System.Drawing.Point(121, 26);
+            this.lblPV.Location = new System.Drawing.Point(227, 28);
             this.lblPV.Name = "lblPV";
             this.lblPV.Size = new System.Drawing.Size(11, 12);
             this.lblPV.TabIndex = 26;
             this.lblPV.Text = "0";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(446, 26);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(61, 12);
-            this.label9.TabIndex = 20;
-            this.label9.Text = "AI Current";
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(237, 26);
+            this.label13.Location = new System.Drawing.Point(358, 28);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(72, 12);
             this.label13.TabIndex = 25;
@@ -602,7 +580,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(14, 26);
+            this.label14.Location = new System.Drawing.Point(120, 28);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(73, 12);
             this.label14.TabIndex = 24;
@@ -684,10 +662,8 @@
         private NationalInstruments.UI.XAxis xAxis2;
         private NationalInstruments.UI.YAxis yAxis2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblPC;
         private System.Windows.Forms.Label lblPV;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown PSCurrent;

@@ -412,6 +412,33 @@ namespace PS_ELOAD_Serial
             {
                 UpdateGraphWithData(); // 그래프 데이터 업데이트 메서드 호출
             }
+            if (psConnected) // Power Supply가 연결된 상태에서만 동작
+            {
+                try
+                {
+                    // 전압 값 읽기
+                    string psVoltage = ReadResponseFromPS("MEAS:VOLT?");
+                    double voltageValue;
+                    if (double.TryParse(psVoltage, out voltageValue))
+                    {
+                        lblPV.Text = string.Format("{0} V", voltageValue); // 전압 라벨 업데이트
+                        voltagePlot.PlotYAppend(voltageValue); // 전압 그래프 업데이트
+                    }
+
+                    // 전류 값 읽기
+                    string psCurrent = ReadResponseFromPS("MEAS:CURR?");
+                    double currentValue;
+                    if (double.TryParse(psCurrent, out currentValue))
+                    {
+                        lblPC.Text = string.Format("{0} A", currentValue); // 전류 라벨 업데이트
+                        currentPlot.PlotYAppend(currentValue); // 전류 그래프 업데이트
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Power Supply 데이터 읽기 실패: " + ex.Message, "오류");
+                }
+            }
         }
 
         // 전압 및 전류 값 읽어서 그래프 업데이트
