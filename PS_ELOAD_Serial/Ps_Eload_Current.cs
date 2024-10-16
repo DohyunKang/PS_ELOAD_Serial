@@ -8,8 +8,11 @@ namespace PS_ELOAD_Serial
     {
         private NationalInstruments.DAQmx.Task voltageTask;  // DAQmx Task 객체
         private AnalogSingleChannelReader reader;  // DAQ에서 데이터를 읽어오기 위한 Reader 객체
-        private const double sensitivity = 50.0; // DHAB S/113 채널 1의 감도 (50 mV/A)
         private Timer updateTimer;  // 데이터를 읽어오는 타이머
+
+        private const double supplyVoltage = 5.0; // 공급 전압 (U_c)
+        private const double offsetVoltage = 2.5; // 오프셋 전압 (V_0) - 센서의 기본값
+        private const double sensitivity = 0.05; // DHAB S/113 채널 1의 감도 (50 mV/A = 0.05 V/A)
 
         public Ps_Eload_Current()
         {
@@ -22,6 +25,10 @@ namespace PS_ELOAD_Serial
             updateTimer = new Timer();
             updateTimer.Interval = 100; // 0.1초마다 데이터 업데이트
             updateTimer.Tick += (s, ev) => UpdateDAQData();
+
+            // 버튼 클릭 이벤트 핸들러 연결
+            this.ReadButton.Click += new System.EventHandler(this.ReadButton_Click);
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
         }
 
         private void InitializeDAQ()
@@ -46,13 +53,14 @@ namespace PS_ELOAD_Serial
             try
             {
                 // 전압값을 DAQ로부터 읽음
-                double voltage = reader.ReadSingleSample();
+                double outputVoltage = reader.ReadSingleSample();
 
                 // lblVoltage_DAQ에 전압값 표시
-                lblVoltage_DAQ.Text = voltage.ToString("F2") + " V";
+                lblVoltage_DAQ.Text = outputVoltage.ToString("F2") + " V";
 
-                // 전류값 계산 (전류 = 전압 / 감도)
-                double current = voltage / (sensitivity / 1000.0); // 50 mV = 0.05 V
+                // 전류값 계산 (공식에 따라 전류 계산)
+                double current = ((5 / supplyVoltage) * outputVoltage - offsetVoltage) * (-1 / sensitivity); 
+                // -1 / sensitivity에서 1이 아니라 -1한 이유는 측정기를 전선에 반대방향으로 통과시켰기 때문. 
 
                 // lblCurrent_DAQ에 전류값 표시
                 lblCurrent_DAQ.Text = current.ToString("F2") + " A";
