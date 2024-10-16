@@ -12,7 +12,7 @@ namespace PS_ELOAD_Serial
 
         private const double supplyVoltage = 5.0; // 공급 전압 (U_c)
         private const double offsetVoltage = 2.5; // 오프셋 전압 (V_0) - 센서의 기본값
-        private const double sensitivity = 0.05; // DHAB S/113 채널 1의 감도 (50 mV/A = 0.05 V/A)
+        private const double sensitivity = 0.0267; // DHAB S/113 채널 1의 감도 (50 mV/A = 0.05 V/A)
 
         public Ps_Eload_Current()
         {
