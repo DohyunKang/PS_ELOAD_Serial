@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.ELoad = new System.Windows.Forms.GroupBox();
+            this.SequenceRun = new System.Windows.Forms.Button();
             this.periodNumeric = new System.Windows.Forms.NumericUpDown();
             this.label20 = new System.Windows.Forms.Label();
             this.LoadButton = new System.Windows.Forms.Button();
             this.ApplyButton3 = new System.Windows.Forms.Button();
-            this.ParameterButton = new System.Windows.Forms.Button();
             this.ModeButton = new System.Windows.Forms.Button();
             this.switch1 = new NationalInstruments.UI.WindowsForms.Switch();
             this.label8 = new System.Windows.Forms.Label();
@@ -43,6 +43,7 @@
             this.CRButton = new System.Windows.Forms.RadioButton();
             this.CVButton = new System.Windows.Forms.RadioButton();
             this.CCButton = new System.Windows.Forms.RadioButton();
+            this.ParameterButton = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.lblCurrent = new System.Windows.Forms.Label();
             this.lblVoltage = new System.Windows.Forms.Label();
@@ -77,7 +78,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.PS_LED = new NationalInstruments.UI.WindowsForms.Led();
             this.E_LED = new NationalInstruments.UI.WindowsForms.Led();
-            this.SequenceRun = new System.Windows.Forms.Button();
+            this.PSELOADCURRENT = new System.Windows.Forms.Button();
             this.ELoad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.periodNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.switch1)).BeginInit();
@@ -116,6 +117,17 @@
             this.ELoad.TabIndex = 1;
             this.ELoad.TabStop = false;
             this.ELoad.Text = "ELoad";
+            // 
+            // SequenceRun
+            // 
+            this.SequenceRun.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.SequenceRun.Location = new System.Drawing.Point(127, 138);
+            this.SequenceRun.Name = "SequenceRun";
+            this.SequenceRun.Size = new System.Drawing.Size(99, 39);
+            this.SequenceRun.TabIndex = 46;
+            this.SequenceRun.Text = "Sequence Run/Stop";
+            this.SequenceRun.UseVisualStyleBackColor = true;
+            this.SequenceRun.Click += new System.EventHandler(this.SequenceRun_Click);
             // 
             // periodNumeric
             // 
@@ -160,17 +172,6 @@
             this.ApplyButton3.Text = "Apply";
             this.ApplyButton3.UseVisualStyleBackColor = true;
             this.ApplyButton3.Click += new System.EventHandler(this.ApplyButton3_Click);
-            // 
-            // ParameterButton
-            // 
-            this.ParameterButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ParameterButton.Location = new System.Drawing.Point(450, 254);
-            this.ParameterButton.Name = "ParameterButton";
-            this.ParameterButton.Size = new System.Drawing.Size(99, 39);
-            this.ParameterButton.TabIndex = 40;
-            this.ParameterButton.Text = "Parameter Load";
-            this.ParameterButton.UseVisualStyleBackColor = true;
-            this.ParameterButton.Click += new System.EventHandler(this.ParameterButton_Click);
             // 
             // ModeButton
             // 
@@ -256,6 +257,17 @@
             this.CCButton.Text = "CC";
             this.CCButton.UseVisualStyleBackColor = true;
             this.CCButton.CheckedChanged += new System.EventHandler(this.CCButton_CheckedChanged);
+            // 
+            // ParameterButton
+            // 
+            this.ParameterButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ParameterButton.Location = new System.Drawing.Point(450, 254);
+            this.ParameterButton.Name = "ParameterButton";
+            this.ParameterButton.Size = new System.Drawing.Size(99, 39);
+            this.ParameterButton.TabIndex = 40;
+            this.ParameterButton.Text = "Parameter Load";
+            this.ParameterButton.UseVisualStyleBackColor = true;
+            this.ParameterButton.Click += new System.EventHandler(this.ParameterButton_Click);
             // 
             // groupBox5
             // 
@@ -605,22 +617,23 @@
             this.E_LED.Size = new System.Drawing.Size(64, 64);
             this.E_LED.TabIndex = 39;
             // 
-            // SequenceRun
+            // PSELOADCURRENT
             // 
-            this.SequenceRun.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.SequenceRun.Location = new System.Drawing.Point(127, 138);
-            this.SequenceRun.Name = "SequenceRun";
-            this.SequenceRun.Size = new System.Drawing.Size(99, 39);
-            this.SequenceRun.TabIndex = 46;
-            this.SequenceRun.Text = "Sequence Run/Stop";
-            this.SequenceRun.UseVisualStyleBackColor = true;
-            this.SequenceRun.Click += new System.EventHandler(this.SequenceRun_Click);
+            this.PSELOADCURRENT.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.PSELOADCURRENT.Location = new System.Drawing.Point(551, 500);
+            this.PSELOADCURRENT.Name = "PSELOADCURRENT";
+            this.PSELOADCURRENT.Size = new System.Drawing.Size(141, 50);
+            this.PSELOADCURRENT.TabIndex = 41;
+            this.PSELOADCURRENT.Text = "P/S <-> ELOAD CURRENT";
+            this.PSELOADCURRENT.UseVisualStyleBackColor = true;
+            this.PSELOADCURRENT.Click += new System.EventHandler(this.PSELOADCURRENT_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 1017);
+            this.Controls.Add(this.PSELOADCURRENT);
             this.Controls.Add(this.E_LED);
             this.Controls.Add(this.PS_LED);
             this.Controls.Add(this.groupBox1);
@@ -704,6 +717,7 @@
         private System.Windows.Forms.NumericUpDown periodNumeric;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button SequenceRun;
+        private System.Windows.Forms.Button PSELOADCURRENT;
     }
 }
 

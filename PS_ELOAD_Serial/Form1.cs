@@ -165,7 +165,7 @@ namespace PS_ELOAD_Serial
         {
             // Sequence 창을 SerialPort와 함께 열기
             Sequence sequenceWindow = new Sequence(serialPort);
-            sequenceWindow.Show(); // 모달리스 창 열기
+            sequenceWindow.ShowDialog(); // ShowDialog()를 사용하여 모달 창으로 엶
             MessageBox.Show("Sequence 창이 열렸습니다.");
         }
 
@@ -525,15 +525,18 @@ namespace PS_ELOAD_Serial
                 if (selectedButton != null && selectedButton.Checked)
                 {
                     string command = "";
+                    string command2 = "";
 
                     // CC 모드 선택 시 CCMode 폼을 열기
                     if (selectedButton == CCButton)
                     {
                         command = "FUNC CC"; // CC 모드 설정 명령어
+                        command2 = "FUNC:CVOP OFF"; // +CV 모드 OFF
 
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
+                            serialPort.WriteLine(command2); // 명령어를 ELoad로 전송
                             MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
 
                             // CC 모드가 선택되었을 때 CCMode 폼을 열기
@@ -608,10 +611,12 @@ namespace PS_ELOAD_Serial
                     else if (selectedButton == CRButton)
                     {
                         command = "FUNC CR"; // CR 모드 설정 명령어
+                        command2 = "FUNC:CVOP OFF"; // +CV 모드 OFF
 
                         try
                         {
                             serialPort.WriteLine(command); // 명령어를 ELoad로 전송
+                            serialPort.WriteLine(command2); // 명령어를 ELoad로 전송
                             MessageBox.Show("명령 전송 성공: " + command, "모드 설정");
 
                             // CR 모드가 선택되었을 때 CRMode 폼을 열기
@@ -901,5 +906,56 @@ namespace PS_ELOAD_Serial
             }
         }
 
+        /*private void PSELOADCURRENT_Click(object sender, EventArgs e)
+        {
+            // ELoad와 PS가 모두 켜졌는지 확인
+            if (isConnected && psConnected)
+            {
+                try
+                {
+                    // Ps_Eload_Current 폼 인스턴스 생성
+                    Ps_Eload_Current psEloadCurrentForm = new Ps_Eload_Current();
+
+                    // 모달 창으로 폼 열기
+                    psEloadCurrentForm.ShowDialog(); // ShowDialog()를 사용하여 모달 창으로 엶
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ps_Eload_Current 창을 여는 동안 오류가 발생했습니다: " + ex.Message, "오류");
+                }
+            }
+            else
+            {
+                // ELoad 또는 PS 중 하나라도 켜지지 않은 경우 경고 메시지 표시
+                if (!isConnected && !psConnected)
+                {
+                    MessageBox.Show("ELoad와 PowerSupply가 모두 켜져 있지 않습니다.", "오류");
+                }
+                else if (!isConnected)
+                {
+                    MessageBox.Show("ELoad가 켜져 있지 않습니다.", "오류");
+                }
+                else if (!psConnected)
+                {
+                    MessageBox.Show("PowerSupply가 켜져 있지 않습니다.", "오류");
+                }
+            }
+        }*/
+
+        private void PSELOADCURRENT_Click(object sender, EventArgs e)
+        {
+                try
+                {
+                    // Ps_Eload_Current 폼 인스턴스 생성
+                    Ps_Eload_Current psEloadCurrentForm = new Ps_Eload_Current();
+
+                    // 모달 창으로 폼 열기
+                    psEloadCurrentForm.ShowDialog(); // ShowDialog()를 사용하여 모달 창으로 엶
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ps_Eload_Current 창을 여는 동안 오류가 발생했습니다: " + ex.Message, "오류");
+                }
+        }
     }
 }

@@ -313,7 +313,7 @@ namespace PS_ELOAD_Serial
                 int selectedProgramID = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["ProgramID"].Value);
 
                 // Option_list 폼을 ProgramID와 함께 생성 및 표시
-                Option_list optionListForm = new Option_list(selectedProgramID);
+                Option_list optionListForm = new Option_list(selectedProgramID, serialPort);
                 optionListForm.ShowDialog(); // 모달로 폼 표시 (원하는 경우 Show() 사용 가능)
             }
             else

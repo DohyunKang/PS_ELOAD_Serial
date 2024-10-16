@@ -109,6 +109,12 @@
     <Compile Include="Option_list.Designer.cs">
       <DependentUpon>Option_list.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ps_Eload_Current.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ps_Eload_Current.Designer.cs">
+      <DependentUpon>Ps_Eload_Current.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Option_list.resx">
+      <DependentUpon>Option_list.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProgramForm.resx">
       <DependentUpon>ProgramForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,6 +163,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Ps_Eload_Current.resx">
+      <DependentUpon>Ps_Eload_Current.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sequence.resx">
       <DependentUpon>Sequence.cs</DependentUpon>
     </EmbeddedResource>
