@@ -202,6 +202,9 @@ namespace PS_ELOAD_Serial
                                     // 시리얼 포트가 열려 있는지 확인
                                     if (serialPort != null && serialPort.IsOpen)
                                     {
+                                        //Eload 프로그램 삭제 전, 셀렉 초기화
+                                        string selectCommand = string.Format("PROG \"/\""); // 명령어 생성
+                                        serialPort.WriteLine(selectCommand); // 명령어 전송
                                         // Eload에 프로그램 삭제 명령어 전송
                                         string deleteCommand = string.Format("PROG:DEL \"/{0}\"", selectedProgramName);  // Eload의 명령어 형식에 맞게 작성
                                         serialPort.WriteLine(deleteCommand);
