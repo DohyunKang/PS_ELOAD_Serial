@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.IO.Ports;
 using System.IO;
 using System.Net.Sockets;
@@ -944,18 +944,18 @@ namespace PS_ELOAD_Serial
 
         private void PSELOADCURRENT_Click(object sender, EventArgs e)
         {
-                try
-                {
-                    // Ps_Eload_Current 폼 인스턴스 생성
-                    Ps_Eload_Current psEloadCurrentForm = new Ps_Eload_Current();
+            try
+            {
+                // Ps_Eload_Current 폼 인스턴스 생성
+                Ps_Eload_Current psEloadCurrentForm = new Ps_Eload_Current();
 
-                    // 모달 창으로 폼 열기
-                    psEloadCurrentForm.ShowDialog(); // ShowDialog()를 사용하여 모달 창으로 엶
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ps_Eload_Current 창을 여는 동안 오류가 발생했습니다: " + ex.Message, "오류");
-                }
+                // 모달 창으로 폼 열기
+                psEloadCurrentForm.ShowDialog(); // ShowDialog()를 사용하여 모달 창으로 엶
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ps_Eload_Current 창을 여는 동안 오류가 발생했습니다: " + ex.Message, "오류");
+            }
         }
     }
 }

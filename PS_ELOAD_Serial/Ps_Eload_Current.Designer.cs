@@ -29,13 +29,18 @@
         private void InitializeComponent()
         {
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.StopButton = new System.Windows.Forms.Button();
+            this.ReadButton = new System.Windows.Forms.Button();
             this.lblVoltage_DAQ = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblCurrent_DAQ = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.ReadButton = new System.Windows.Forms.Button();
-            this.StopButton = new System.Windows.Forms.Button();
+            this.waveformGraph1 = new NationalInstruments.UI.WindowsForms.WaveformGraph();
+            this.waveformPlot2 = new NationalInstruments.UI.WaveformPlot();
+            this.xAxis2 = new NationalInstruments.UI.XAxis();
+            this.yAxis2 = new NationalInstruments.UI.YAxis();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
@@ -55,6 +60,28 @@
             this.groupBox5.TabIndex = 31;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "P/S <----> ELOAD";
+            // 
+            // StopButton
+            // 
+            this.StopButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.StopButton.Location = new System.Drawing.Point(346, 297);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(88, 50);
+            this.StopButton.TabIndex = 43;
+            this.StopButton.Text = "STOP";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // ReadButton
+            // 
+            this.ReadButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ReadButton.Location = new System.Drawing.Point(220, 297);
+            this.ReadButton.Name = "ReadButton";
+            this.ReadButton.Size = new System.Drawing.Size(88, 50);
+            this.ReadButton.TabIndex = 42;
+            this.ReadButton.Text = "READ";
+            this.ReadButton.UseVisualStyleBackColor = true;
+            this.ReadButton.Click += new System.EventHandler(this.ReadButton_Click);
             // 
             // lblVoltage_DAQ
             // 
@@ -96,38 +123,47 @@
             this.label11.TabIndex = 25;
             this.label11.Text = "AI CURRENT";
             // 
-            // ReadButton
+            // waveformGraph1
             // 
-            this.ReadButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ReadButton.Location = new System.Drawing.Point(220, 297);
-            this.ReadButton.Name = "ReadButton";
-            this.ReadButton.Size = new System.Drawing.Size(88, 50);
-            this.ReadButton.TabIndex = 42;
-            this.ReadButton.Text = "READ";
-            this.ReadButton.UseVisualStyleBackColor = true;
-            this.ReadButton.Click += new System.EventHandler(this.ReadButton_Click);
+            this.waveformGraph1.Location = new System.Drawing.Point(500, 12);
+            this.waveformGraph1.Name = "waveformGraph1";
+            this.waveformGraph1.Plots.AddRange(new NationalInstruments.UI.WaveformPlot[] {
+            this.waveformPlot2});
+            this.waveformGraph1.Size = new System.Drawing.Size(649, 362);
+            this.waveformGraph1.TabIndex = 32;
+            this.waveformGraph1.UseColorGenerator = true;
+            this.waveformGraph1.XAxes.AddRange(new NationalInstruments.UI.XAxis[] {
+            this.xAxis2});
+            this.waveformGraph1.YAxes.AddRange(new NationalInstruments.UI.YAxis[] {
+            this.yAxis2});
             // 
-            // StopButton
+            // waveformPlot2
             // 
-            this.StopButton.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.StopButton.Location = new System.Drawing.Point(346, 297);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(88, 50);
-            this.StopButton.TabIndex = 43;
-            this.StopButton.Text = "STOP";
-            this.StopButton.UseVisualStyleBackColor = true;
-            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            this.waveformPlot2.XAxis = this.xAxis2;
+            this.waveformPlot2.YAxis = this.yAxis2;
+            // 
+            // xAxis2
+            // 
+            this.xAxis2.Caption = "Time";
+            this.xAxis2.Mode = NationalInstruments.UI.AxisMode.StripChart;
+            this.xAxis2.Range = new NationalInstruments.UI.Range(0D, 100D);
+            // 
+            // yAxis2
+            // 
+            this.yAxis2.Caption = "Current (A)";
             // 
             // Ps_Eload_Current
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 386);
+            this.ClientSize = new System.Drawing.Size(1174, 397);
+            this.Controls.Add(this.waveformGraph1);
             this.Controls.Add(this.groupBox5);
             this.Name = "Ps_Eload_Current";
             this.Text = "Ps_Eload_Current";
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -141,5 +177,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ReadButton;
         private System.Windows.Forms.Button StopButton;
+        private NationalInstruments.UI.WindowsForms.WaveformGraph waveformGraph1;
+        private NationalInstruments.UI.WaveformPlot waveformPlot2;
+        private NationalInstruments.UI.XAxis xAxis2;
+        private NationalInstruments.UI.YAxis yAxis2;
     }
 }

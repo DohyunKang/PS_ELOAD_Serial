@@ -642,7 +642,6 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.ELoad);
             this.Name = "Form1";
-            this.Text = "Form1";
             this.ELoad.ResumeLayout(false);
             this.ELoad.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.periodNumeric)).EndInit();

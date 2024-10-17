@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using NationalInstruments.DAQmx;  // DAQmx API 사용을 위한 참조
+using NationalInstruments.UI;    // 그래프 컨트롤을 사용하기 위한 참조
 
 namespace PS_ELOAD_Serial
 {
@@ -9,10 +10,10 @@ namespace PS_ELOAD_Serial
         private NationalInstruments.DAQmx.Task voltageTask;  // DAQmx Task 객체
         private AnalogSingleChannelReader reader;  // DAQ에서 데이터를 읽어오기 위한 Reader 객체
         private Timer updateTimer;  // 데이터를 읽어오는 타이머
-
+        private double elapsedTime = 0;  // X축 시간값을 저장할 변수
         private const double supplyVoltage = 5.0; // 공급 전압 (U_c)
         private const double offsetVoltage = 2.5; // 오프셋 전압 (V_0) - 센서의 기본값
-        private const double sensitivity = 0.0267; // DHAB S/113 채널 1의 감도 (50 mV/A = 0.05 V/A)
+        private const double sensitivity = 0.0267; // DHAB S/113 채널 1의 감도 (26.7 mV/A = 0.0267 V/A)
 
         public Ps_Eload_Current()
         {
@@ -29,6 +30,9 @@ namespace PS_ELOAD_Serial
             // 버튼 클릭 이벤트 핸들러 연결
             this.ReadButton.Click += new System.EventHandler(this.ReadButton_Click);
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+
+            // 그래프 초기화 (축 설정)
+            InitializeGraph();
         }
 
         private void InitializeDAQ()
@@ -59,11 +63,16 @@ namespace PS_ELOAD_Serial
                 lblVoltage_DAQ.Text = outputVoltage.ToString("F2") + " V";
 
                 // 전류값 계산 (공식에 따라 전류 계산)
-                double current = ((5 / supplyVoltage) * outputVoltage - offsetVoltage) * (-1 / sensitivity); 
-                // -1 / sensitivity에서 1이 아니라 -1한 이유는 측정기를 전선에 반대방향으로 통과시켰기 때문. 
+                double current = ((5 / supplyVoltage) * outputVoltage - offsetVoltage) * (-1 / sensitivity); // 전류 측정 센서 반대로 연결함.
 
                 // lblCurrent_DAQ에 전류값 표시
                 lblCurrent_DAQ.Text = current.ToString("F2") + " A";
+
+                // 실시간으로 그래프에 데이터 추가 (시간 경과에 따른 전류)
+                PlotGraph(elapsedTime, current);
+
+                // 시간 경과값 증가 (0.1초마다 타이머 동작)
+                elapsedTime += updateTimer.Interval / 1000.0;
             }
             catch (DaqException ex)
             {
@@ -71,11 +80,28 @@ namespace PS_ELOAD_Serial
             }
         }
 
+        // 그래프 초기화 메서드
+        private void InitializeGraph()
+        {
+            // Y축은 전류 (A), X축은 시간 (초)
+            waveformGraph1.YAxes[0].Caption = "Current (A)";
+            waveformGraph1.XAxes[0].Caption = "Time (0.1s)";
+        }
+
+        // 그래프에 실시간 데이터 추가 메서드
+        private void PlotGraph(double time, double current)
+        {
+            // X축(시간)과 Y축(전류)을 전달하여 그래프에 점을 추가
+            waveformGraph1.PlotYAppend(current);
+        }
+
         // ReadButton 클릭 시 타이머 시작
         private void ReadButton_Click(object sender, EventArgs e)
         {
             if (!updateTimer.Enabled)  // 타이머가 이미 동작 중인지 확인
             {
+                elapsedTime = 0;  // 시간 초기화
+                waveformGraph1.ClearData();  // 이전 그래프 데이터 초기화
                 updateTimer.Start();
                 MessageBox.Show("데이터 수집 시작");
             }
