@@ -17,7 +17,9 @@ LAN을 통한 SCPI 명령어를 사용하여 전원공급기 및 ELOAD의 정확
   - Visual Studio 2012 이상
   - NI LabVIEW 또는 Measurement & Automation Explorer (MAX)
   - KIKUSUI PWX1500L 및 PLZ1205W 드라이버
-- **하드웨어**: 
+- **하드웨어**:
+![image](https://github.com/user-attachments/assets/368d2dc8-71f0-41dd-8e0a-1ba957d19abc)
+![image](https://github.com/user-attachments/assets/89908844-40d2-4706-8643-01179e2a14a1)
   - KIKUSUI PWX1500L 전원공급기
   - KIKUSUI PLZ1205W 전자 부하(ELOAD)
   - DHAB S/133 전류 센서
