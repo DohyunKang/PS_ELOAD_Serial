@@ -5,6 +5,11 @@
 
 LAN을 통한 SCPI 명령어를 사용하여 전원공급기 및 ELOAD의 정확한 제어와 모니터링을 제공합니다.
 
+## UI
+- <img width="500" alt="UI 1" src="https://github.com/user-attachments/assets/d864e6f8-d9d4-43fc-a305-500250498b49">
+- <img width="500" alt="UI 2" src="https://github.com/user-attachments/assets/eb8459ba-dcc4-4576-8352-b351a763d335">
+- <img width="500" alt="UI 3" src="https://github.com/user-attachments/assets/6aa1a13e-f771-42d8-a444-7209d6b3848c">
+
 ## 주요 기능
 - **SCPI 기반 제어**: LAN 통신을 통해 **KIKUSUI PWX1500L**과 **PLZ1205W**를 실시간으로 제어할 수 있으며, SCPI 명령어를 사용합니다.
 - **DHAB S/133 전류 측정**: **DHAB S/133** 전류 센서를 NI 하드웨어의 AI 포트에 연결하여 정확한 전류 값을 측정할 수 있습니다.
