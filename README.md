@@ -70,3 +70,6 @@ serialPort.WriteLine(deleteStepCommand);
 ## 주의 사항
 - 시리얼 포트가 올바르게 설정되었는지 확인하고, KIKUSUI 장비와 LAN 연결 상태를 점검하세요.
 - 전류 측정을 위한 **DHAB S/133** 센서의 연결 상태와 NI MAX 설정을 확인하세요.
+
+## Reference
+- [Week4_DH.pptx](https://github.com/user-attachments/files/17429671/Week4_DH.pptx)
