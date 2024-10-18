@@ -21,6 +21,7 @@ LAN을 통한 SCPI 명령어를 사용하여 전원공급기 및 ELOAD의 정확
   - KIKUSUI PWX1500L 전원공급기
   - KIKUSUI PLZ1205W 전자 부하(ELOAD)
  <img width="500" alt="Period = KIKUSUI PWX1500L 전원공급기, KIKUSUI PLZ1205W 전자 부하(ELOAD)" src="https://github.com/user-attachments/assets/368d2dc8-71f0-41dd-8e0a-1ba957d19abc">
+ - ** **:
   - DHAB S/133 전류 센서
   - NI DAQ(데이터 수집) 장치, AI 포트 지원
 <img width="300" alt="Period = DHAB S/133 전류 센서, NI DAQ(데이터 수집) 장치" src="https://github.com/user-attachments/assets/89908844-40d2-4706-8643-01179e2a14a1">
