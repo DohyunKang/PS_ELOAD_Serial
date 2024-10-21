@@ -79,4 +79,4 @@ serialPort.WriteLine(deleteStepCommand);
 - 전류 측정을 위한 **DHAB S/133** 센서의 연결 상태와 NI MAX 설정을 확인하세요.
 
 ## Reference
-- [Week4_DH.pptx](https://github.com/user-attachments/files/17454114/Week4_DH.pptx)
+- [Week4_DH.pptx](https://github.com/user-attachments/files/17454467/Week4_DH.pptx)
